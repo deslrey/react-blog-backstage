@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: react-blog-boot
+
+server:
+  servlet:
+    context-path: /deslre
