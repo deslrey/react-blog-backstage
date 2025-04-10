@@ -1,6 +1,11 @@
 spring:
   application:
     name: react-blog-boot
+  datasource:
+    url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: 200381
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
   servlet:
