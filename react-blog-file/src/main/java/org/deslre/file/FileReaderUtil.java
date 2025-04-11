@@ -12,23 +12,24 @@ import java.io.IOException;
  * Version: 1.0
  */
 public class FileReaderUtil {
-    public static String readMarkdownFile(String filePath) throws IOException {
+    public static String readMarkdownFile(String filePath) {
         StringBuilder content = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 content.append(line).append("\n");
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
         return content.toString();
     }
 
     public static void main(String[] args) {
-        try {
-            String content = readMarkdownFile("E:\\blog\\react-blog\\public\\content\\3.md");
-            System.out.println(content);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        String content = readMarkdownFile("E:\\blog\\react-blog\\public\\content\\3.md");
+        System.out.println(content);
+
     }
 }
