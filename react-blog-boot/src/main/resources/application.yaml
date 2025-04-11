@@ -10,3 +10,4 @@ spring:
 server:
   servlet:
     context-path: /deslre
+  port: 8080
