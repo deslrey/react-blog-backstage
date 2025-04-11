@@ -31,14 +31,14 @@ public class Results<T> {
         return results;
     }
 
-    public static <T> Results<T> build(T body, Integer code, String message) {
+    protected static <T> Results<T> build(T body, Integer code, String message) {
         Results<T> results = build(body);
         results.setCode(code);
         results.setMessage(message);
         return results;
     }
 
-    public static <T> Results<T> build(T body, ResultCodeEnum resultCodeEnum) {
+    protected static <T> Results<T> build(T body, ResultCodeEnum resultCodeEnum) {
         Results<T> results = build(body);
         results.setCode(resultCodeEnum.getCode());
         results.setMessage(resultCodeEnum.getMessage());
@@ -56,15 +56,47 @@ public class Results<T> {
         return build(data, ResultCodeEnum.SUCCESS);
     }
 
-    public static <T> Results<T> fail() {
-        return Results.fail(null);
+    /**
+     * 操作成功
+     */
+    public static <T> Results<T> ok(String message) {
+        return build(null, 200, message);
     }
+
+    /**
+     * 操作成功
+     */
+    public static <T> Results<T> ok(T data, String message) {
+        return build(data, 200, message);
+    }
+
 
     /**
      * 操作失败
      */
     public static <T> Results<T> fail(T data) {
         return build(data, ResultCodeEnum.FAIL);
+    }
+
+    public static <T> Results<T> fail(String message) {
+        return build(null, 500, message);
+    }
+
+    public static <T> Results<T> fail(Integer code, String message) {
+        return build(null, code, message);
+    }
+
+
+    public static <T> Results<T> fail() {
+        return Results.fail(null, ResultCodeEnum.FAIL);
+    }
+
+    public static <T> Results<T> fail(T data, ResultCodeEnum resultCodeEnum) {
+        return build(data, resultCodeEnum);
+    }
+
+    public static <T> Results<T> fail(ResultCodeEnum resultCodeEnum) {
+        return build(null, resultCodeEnum);
     }
 
     public Results<T> message(String msg) {
