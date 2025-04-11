@@ -1,4 +1,4 @@
-package org.deslre.desk.entity;
+package org.deslre.desk.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;

@@ -1,8 +1,8 @@
 package org.deslre.desk.service.impl;
 
 import org.deslre.commons.result.Results;
+import org.deslre.desk.entity.vo.ArticleVO;
 import org.deslre.desk.service.ArticleService;
-import org.deslre.vo.ArticleVO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,11 +14,12 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class ArticleServiceImpl implements ArticleService {
-
+public class ArticleServiceImpl implements ArticleService{
 
     @Override
     public Results<ArticleVO> getArticleDetail(Integer articleId) {
-        return null;
+        if (articleId == null || articleId <= 0) {
+            return Results.fail();
+        }
     }
 }

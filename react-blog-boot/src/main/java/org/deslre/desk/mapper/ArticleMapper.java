@@ -1,6 +1,6 @@
 package org.deslre.desk.mapper;
 
-import org.deslre.desk.entity.Article;
+import org.deslre.desk.entity.po.Article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
