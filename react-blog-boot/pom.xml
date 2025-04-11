@@ -66,10 +66,17 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!--    实体类转换    -->
         <dependency>
-            <groupId>org.deslre</groupId>
-            <artifactId>react-blog-entity</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.2.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.5.2.Final</version>
         </dependency>
 
     </dependencies>
