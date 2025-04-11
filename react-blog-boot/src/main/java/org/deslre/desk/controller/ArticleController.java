@@ -1,11 +1,10 @@
 package org.deslre.desk.controller;
 
+import lombok.Getter;
 import org.deslre.commons.result.Results;
+import org.deslre.desk.entity.vo.ArticleVO;
 import org.deslre.desk.service.ArticleService;
-import org.deslre.vo.ArticleVO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -17,6 +16,7 @@ import javax.annotation.Resource;
  * Version: 1.0
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
@@ -24,7 +24,12 @@ public class ArticleController {
     @Resource
     private ArticleService articleService;
 
-    @PostMapping("articleId")
+    @GetMapping("title")
+    public Results<String> getTitle() {
+        return Results.ok("测试");
+    }
+
+    @PostMapping("getArticleDetail")
     public Results<ArticleVO> getArticleDetail(Integer articleId) {
         return articleService.getArticleDetail(articleId);
     }

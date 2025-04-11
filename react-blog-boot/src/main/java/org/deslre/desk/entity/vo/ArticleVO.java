@@ -1,31 +1,21 @@
-package org.deslre.desk.entity.po;
+package org.deslre.desk.entity.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.io.Serializable;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
- * <p>
- *
- * </p>
- *
- * @author author
- * @since 2025-04-08
+ * ClassName: ArticleVO
+ * Description: ArticleVO
+ * Author: Deslrey
+ * Date: 2025-04-10 9:50
+ * Version: 1.0
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("article")
-public class Article implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+@Data
+public class ArticleVO {
 
     /**
      * 主键id
@@ -67,10 +57,9 @@ public class Article implements Serializable {
 
     private LocalDateTime updateTime;
 
+
     /**
      * 是否启用
      */
     private Boolean exist;
-
-
 }
