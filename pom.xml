@@ -11,7 +11,6 @@
     <modules>
         <module>commons</module>
         <module>react-blog-file</module>
-        <module>react-blog-entity</module>
     </modules>
 
     <properties>
