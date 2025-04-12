@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>commons</module>
-        <module>react-blog-file</module>
     </modules>
 
     <properties>
