@@ -2,9 +2,12 @@ package org.deslre.desk.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.deslre.commons.entity.ArticleDetail;
 import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
+import org.deslre.commons.utils.FileReaderUtil;
 import org.deslre.commons.utils.NumberUtils;
+import org.deslre.commons.utils.StringUtils;
 import org.deslre.desk.convert.ArticleConvert;
 import org.deslre.desk.entity.po.Article;
 import org.deslre.desk.entity.vo.ArticleVO;
@@ -34,8 +37,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (article == null) {
             throw new DeslreException("查找失败");
         }
+        if (StringUtils.isEmpty(article.getStoragePath())) {
+            throw new DeslreException("查找文章存储地址不存在");
+        }
+
+        ArticleDetail articleDetail = FileReaderUtil.parse(article.getStoragePath());
+        if (articleDetail == null) {
+            throw new DeslreException("当前文章不存在");
+        }
 
         ArticleVO articleVO = ArticleConvert.INSTANCE.convertVO(article);
+        articleVO.setArticleDetail(articleDetail);
 
         return Results.ok(articleVO);
     }

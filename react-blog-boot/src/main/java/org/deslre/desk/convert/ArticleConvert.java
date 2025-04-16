@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 
 /**
  * ClassName: ArticleConvert
- * Description: TODO
+ * Description: 文章实体类转换
  * Author: Deslrey
  * Date: 2025-04-10 9:51
  * Version: 1.0
