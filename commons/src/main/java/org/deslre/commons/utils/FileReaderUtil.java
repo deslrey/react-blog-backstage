@@ -21,21 +21,18 @@ import java.util.regex.Pattern;
  */
 
 public class FileReaderUtil {
-    public static String readMarkdownFile(String filePath) {
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    public static ArticleDetail parse(String filePath) {
+
+        if (StringUtils.isEmpty(filePath)) {
             return null;
         }
-        return content.toString();
-    }
 
-    public static ArticleDetail parse(String markdownFile) {
+        String markdownFile = readMarkdownFile(filePath);
+        if (StringUtils.isEmpty(markdownFile)) {
+            return null;
+        }
+
         // 提取 metadata 部分
         Pattern pattern = Pattern.compile("---\\s*(.*?)\\s*---", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(markdownFile);
@@ -82,6 +79,22 @@ public class FileReaderUtil {
         return articleDetail;
     }
 
+
+    private static String readMarkdownFile(String filePath) {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return content.toString();
+    }
+
+
     private static int parseReadTime(String value) {
         Matcher m = Pattern.compile("(\\d+)").matcher(value);
         return m.find() ? Integer.parseInt(m.group(1)) : 0;
@@ -94,7 +107,7 @@ public class FileReaderUtil {
                 .length();
     }
 
-    public static String extractMarkdownBody(String content) {
+    private static String extractMarkdownBody(String content) {
         // 去除 Front Matter（以 --- 开头和结束）
         if (content.startsWith("---")) {
             int endIndex = content.indexOf("---", 3); // 从第一个 --- 后再找一个 ---
