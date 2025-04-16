@@ -3,6 +3,7 @@ package org.deslre.desk.entity.vo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
+import org.deslre.commons.entity.ArticleDetail;
 
 import java.time.LocalDateTime;
 
@@ -57,6 +58,7 @@ public class ArticleVO {
 
     private LocalDateTime updateTime;
 
+    private ArticleDetail articleDetail;
 
     /**
      * 是否启用
