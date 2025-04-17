@@ -80,7 +80,7 @@ public class FileReaderUtil {
     }
 
 
-    private static String readMarkdownFile(String filePath) {
+    public static String readMarkdownFile(String filePath) {
         StringBuilder content = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
