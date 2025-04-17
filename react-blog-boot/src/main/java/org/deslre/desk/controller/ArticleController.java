@@ -7,6 +7,7 @@ import org.deslre.desk.service.ArticleService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * ClassName: ArticleController
@@ -34,5 +35,19 @@ public class ArticleController {
         return articleService.getArticleDetail(articleId);
     }
 
+    @PostMapping("/getArticlePage")
+    public Results<List<ArticleVO>> getArticlePage(Integer page, Integer size) {
+        return articleService.getArticlePage(page, size);
+    }
+
+    @GetMapping("/getArticleList")
+    public Results<List<ArticleVO>> getArticleList() {
+        return articleService.getArticleList();
+    }
+
+    @GetMapping("getArchives")
+    public Results<List<ArticleVO>> getArchives(){
+        return articleService.getArchives();
+    }
 
 }

@@ -5,6 +5,8 @@ import org.deslre.commons.result.Results;
 import org.deslre.desk.entity.po.Article;
 import org.deslre.desk.entity.vo.ArticleVO;
 
+import java.util.List;
+
 /**
  * ClassName: ArticleService
  * Description: 文章服务类接口
@@ -14,4 +16,10 @@ import org.deslre.desk.entity.vo.ArticleVO;
  */
 public interface ArticleService extends IService<Article> {
     Results<ArticleVO> getArticleDetail(Integer articleId);
+
+    Results<List<ArticleVO>> getArticlePage(Integer page, Integer size);
+
+    Results<List<ArticleVO>> getArticleList();
+
+    Results<List<ArticleVO>> getArchives();
 }

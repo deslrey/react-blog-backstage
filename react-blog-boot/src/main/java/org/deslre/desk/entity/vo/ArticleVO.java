@@ -58,8 +58,9 @@ public class ArticleVO {
 
     private LocalDateTime updateTime;
 
-    private ArticleDetail articleDetail;
+//    private ArticleDetail articleDetail;
 
+    String content;
     /**
      * 是否启用
      */
