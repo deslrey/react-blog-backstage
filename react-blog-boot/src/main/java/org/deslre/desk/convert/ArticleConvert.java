@@ -5,6 +5,8 @@ import org.deslre.desk.entity.vo.ArticleVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * ClassName: ArticleConvert
  * Description: 文章实体类转换
@@ -18,5 +20,7 @@ public interface ArticleConvert {
     ArticleConvert INSTANCE = Mappers.getMapper(ArticleConvert.class);
 
     ArticleVO convertVO(Article article);
+
+    List<ArticleVO> convertList(List<Article> articles);
 
 }
