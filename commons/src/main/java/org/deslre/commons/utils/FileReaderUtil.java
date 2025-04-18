@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,6 +96,20 @@ public class FileReaderUtil {
         return content.toString();
     }
 
+    public static List<String> extractImagePaths(String markdown) {
+        List<String> imagePaths = new ArrayList<>();
+
+        // 匹配 Markdown 中的图片语法 ![xxx](path)
+        Pattern pattern = Pattern.compile("!\\[.*?]\\((.*?)\\)");
+        Matcher matcher = pattern.matcher(markdown);
+
+        while (matcher.find()) {
+            imagePaths.add(matcher.group(1)); // 提取括号内的路径
+        }
+
+        return imagePaths;
+    }
+
 
     private static int parseReadTime(String value) {
         Matcher m = Pattern.compile("(\\d+)").matcher(value);
@@ -121,8 +137,9 @@ public class FileReaderUtil {
 
     public static void main(String[] args) {
 
-        String content = readMarkdownFile("E:\\blog\\react-blog\\public\\content\\3.md");
-        System.out.println(content);
+        String content = readMarkdownFile("E:\\md\\demo.md");
+        List<String> list = extractImagePaths(content);
+        list.forEach(System.out::println);
 
     }
 }
