@@ -60,6 +60,9 @@ public class ArticleVO {
 
 //    private ArticleDetail articleDetail;
 
+    /**
+     * 内容
+     */
     String content;
     /**
      * 是否启用

@@ -48,7 +48,6 @@ public class ArticleDetail {
     /**
      * 类型
      */
-
     private String type;
 
     /**
