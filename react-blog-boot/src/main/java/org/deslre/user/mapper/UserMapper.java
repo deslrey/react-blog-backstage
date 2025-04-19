@@ -1,6 +1,6 @@
 package org.deslre.user.mapper;
 
-import org.deslre.user.entity.User;
+import org.deslre.user.entity.po.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

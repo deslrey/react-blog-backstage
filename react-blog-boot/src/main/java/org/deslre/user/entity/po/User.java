@@ -1,17 +1,20 @@
-package org.deslre.user.entity;
+package org.deslre.user.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
+import java.io.Serial;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author author
@@ -23,6 +26,7 @@ import lombok.experimental.Accessors;
 @TableName("user")
 public class User implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
@@ -50,7 +54,7 @@ public class User implements Serializable {
     /**
      * 是否启用
      */
-    private Integer exist;
+    private Boolean exist;
 
 
 }
