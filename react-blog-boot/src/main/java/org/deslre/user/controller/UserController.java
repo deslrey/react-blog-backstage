@@ -2,11 +2,16 @@ package org.deslre.user.controller;
 
 
 import org.deslre.commons.result.Results;
-import org.deslre.user.entity.vo.UserVO;
-import org.deslre.user.service.UserService;
-import org.springframework.web.bind.annotation.*;
+import org.deslre.user.entity.Permission;
+import org.deslre.user.service.PermissionService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -14,25 +19,18 @@ import javax.annotation.Resource;
  * </p>
  *
  * @author author
- * @since 2025-04-18
+ * @since 2025-04-24
  */
-@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
     @Resource
-    private UserService userService;
+    private PermissionService permissionService;
 
-    @PostMapping("register")
-    public Results<UserVO> register(String userName, String passWord) {
-        return userService.register(userName, passWord);
+    @GetMapping("/login/{userId}")
+    public Results<List<Permission>> login(@PathVariable Integer userId) {
+        // 获取最终权限列表
+        return permissionService.getFinalPermissionsByUserId(userId);
     }
-
-    @PostMapping("userLogin")
-    public Results<UserVO> userLogin(String userName, String passWord) {
-        return userService.userLogin(userName, passWord);
-    }
-
-
 }

@@ -1,9 +1,9 @@
 package org.deslre.user.service.impl;
 
-import org.deslre.user.entity.User;
-import org.deslre.user.mapper.UserMapper;
+import org.deslre.user.entity.Role;
+import org.deslre.user.mapper.RoleMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.deslre.user.service.UserService;
+import org.deslre.user.service.RoleService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2025-04-24
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
 }

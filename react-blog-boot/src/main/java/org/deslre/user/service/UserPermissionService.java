@@ -1,6 +1,6 @@
 package org.deslre.user.service;
 
-import org.deslre.user.entity.User;
+import org.deslre.user.entity.UserPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author author
  * @since 2025-04-24
  */
-public interface UserService extends IService<User> {
+public interface UserPermissionService extends IService<UserPermission> {
 
 }

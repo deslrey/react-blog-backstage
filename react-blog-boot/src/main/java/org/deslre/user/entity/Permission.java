@@ -1,60 +1,56 @@
-package org.deslre.user.entity.po;
+package org.deslre.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-
-import java.io.Serial;
-import java.time.LocalDateTime;
 import java.io.Serializable;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author author
- * @since 2025-04-18
+ * @since 2025-04-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("user")
-public class User implements Serializable {
+@TableName("permissions")
+public class Permission implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 用户名
+     * 权限/菜单名称
      */
-    private String userName;
+    private String name;
 
     /**
-     * 用户密码
+     * 前端路由路径
      */
-    private String passWord;
+    private String path;
 
-    private LocalDateTime createTime;
-
-    private LocalDateTime updateTime;
+    private String component;
 
     /**
-     * 是否为管理员
+     * 支持多级菜单
      */
-    private Integer admin;
+    private Integer parentId;
 
-    /**
-     * 是否启用
-     */
-    private Boolean exist;
+    private String type;
+
+    private Integer orderNum;
+
+    private Boolean visible;
+
+    private String icon;
 
 
 }
