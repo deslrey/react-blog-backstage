@@ -1,5 +1,6 @@
 package org.deslre.user.service;
 
+import org.deslre.commons.result.Results;
 import org.deslre.user.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
+    Results<User> login(String username, String password);
 }
