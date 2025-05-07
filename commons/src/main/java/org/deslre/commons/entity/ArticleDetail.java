@@ -28,7 +28,12 @@ public class ArticleDetail {
     /**
      * 描述
      */
-    private String describe;
+    private String description;
+
+    /**
+     * 创建日期
+     */
+    private LocalDateTime createDate;
 
     /**
      * 更新日期
