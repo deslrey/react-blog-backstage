@@ -57,8 +57,15 @@ public class FileReaderUtil {
             switch (key) {
                 case "title" -> articleDetail.setTitle(value);
                 case "author" -> articleDetail.setAuthor(value);
-                case "describe" -> articleDetail.setDescribe(value);
-                case "update" -> {
+                case "describe" -> articleDetail.setDescription(value);
+                case "createDate" -> {
+                    // 统一将 / 和 . 替换为 -
+                    String cleanDate = value.replaceAll("[./]", "-");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+                    LocalDate date = LocalDate.parse(cleanDate, formatter);
+                    articleDetail.setCreateDate(LocalDateTime.of(date, LocalTime.MIDNIGHT));
+                }
+                case "updateDate" -> {
                     // 统一将 / 和 . 替换为 -
                     String cleanDate = value.replaceAll("[./]", "-");
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
@@ -66,6 +73,7 @@ public class FileReaderUtil {
                     articleDetail.setUpdateDate(LocalDateTime.of(date, LocalTime.MIDNIGHT));
                 }
 
+                case "wordCount" -> articleDetail.setWordCount(Integer.parseInt(value));
                 case "readTime" -> articleDetail.setReadTime(parseReadTime(value));
                 case "type" -> articleDetail.setType(value);
                 default -> {
