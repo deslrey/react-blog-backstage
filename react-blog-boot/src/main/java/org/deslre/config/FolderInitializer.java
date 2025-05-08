@@ -8,7 +8,7 @@ import java.io.File;
 @Component
 public class FolderInitializer implements CommandLineRunner {
 
-    private static final String folderPath = "E:\\images"; // 你想保存图片的路径
+    private static final String folderPath = "E:\\staticSource"; // 你想保存图片的路径
 
     @Override
     public void run(String... args) throws Exception {
