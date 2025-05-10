@@ -1,5 +1,6 @@
 package org.deslre.desk.convert;
 
+import org.deslre.commons.entity.ArticleDetail;
 import org.deslre.desk.entity.po.Article;
 import org.deslre.desk.entity.vo.ArticleVO;
 import org.mapstruct.Mapper;
@@ -20,6 +21,8 @@ public interface ArticleConvert {
     ArticleConvert INSTANCE = Mappers.getMapper(ArticleConvert.class);
 
     ArticleVO convertVO(Article article);
+
+    Article convertArticleDetail(ArticleDetail articleDetail);
 
     List<ArticleVO> convertList(List<Article> articles);
 
