@@ -3,13 +3,11 @@ package org.deslre.desk.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.deslre.commons.entity.ArticleDetail;
 import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
-import org.deslre.commons.utils.FileReaderUtil;
-import org.deslre.commons.utils.NumberUtils;
-import org.deslre.commons.utils.StaticUtil;
-import org.deslre.commons.utils.StringUtils;
+import org.deslre.commons.utils.*;
 import org.deslre.desk.convert.ArticleConvert;
 import org.deslre.desk.entity.po.Article;
 import org.deslre.desk.entity.vo.ArticleVO;
@@ -17,9 +15,14 @@ import org.deslre.desk.mapper.ArticleMapper;
 import org.deslre.desk.service.ArticleService;
 import org.deslre.exception.DeslreException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * ClassName: ArticleServiceImpl
@@ -29,6 +32,7 @@ import java.util.List;
  * Version: 1.0
  */
 
+@Slf4j
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
@@ -47,8 +51,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
 
         String markdownFile = FileReaderUtil.readMarkdownFile(article.getStoragePath());
+//        String markdownFile = FileReaderUtil.readMarkdownFile("E:\\md\\demo.md");
         if (StringUtils.isEmpty(markdownFile)) {
             throw new DeslreException("当前文章不存在");
+        }
+
+        List<String> extractedImagePaths = FileReaderUtil.extractImagePaths(markdownFile);
+        for (String imagePath : extractedImagePaths) {
+            markdownFile = markdownFile.replace(imagePath, "http://localhost:8080/deslre/images/ikun.jpg");
         }
 
         ArticleVO articleVO = ArticleConvert.INSTANCE.convertVO(article);
@@ -96,6 +106,71 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         List<ArticleVO> convertList = ArticleConvert.INSTANCE.convertList(articleList);
         return Results.ok(convertList);
+    }
+
+    @Override
+    public Results<String> saveArticle(ArticleDetail articleDetail, MultipartFile file) {
+        if (articleDetail == null) {
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+
+        Article article = ArticleConvert.INSTANCE.convertArticleDetail(articleDetail);
+        if (StringUtils.isEmpty(article.getTitle())) {
+            article.setTitle(StaticUtil.DEFAULT_TITLE);
+        }
+        if (StringUtils.isEmpty(article.getAuthor())) {
+            article.setAuthor(StaticUtil.DEFAULT_AUTHOR);
+        }
+        if (StringUtils.isEmpty(article.getDescription())) {
+            article.setDescription(StaticUtil.DEFAULT_DESCRIPTION);
+        }
+        if (article.getCreateTime() == null) {
+            article.setCreateTime(LocalDateTime.now());
+        }
+        if (article.getUpdateTime() == null) {
+            article.setUpdateTime(LocalDateTime.now());
+        }
+        if (file == null || file.isEmpty()) {
+            article.setImagePath(StaticUtil.DEFAULT_COVER);
+        } else {
+            try {
+                String currentYear = DateUtil.getCurrentYear();
+                String currentMonth = DateUtil.getCurrentMonth();
+                String currentDay = DateUtil.getCurrentDay();
+
+                // 构建目录路径
+                String relativePath = currentYear + File.separator + currentMonth + File.separator + currentDay;
+                String fullDirPath = StaticUtil.RESOURCE_IMAGE + relativePath;
+
+                File dir = new File(fullDirPath);
+                if (!dir.exists()) {
+                    boolean created = dir.mkdirs(); // 创建多级目录
+                    if (!created) {
+                        log.error("目录创建失败: " + fullDirPath);
+                        return Results.fail(ResultCodeEnum.CODE_500);
+                    }
+                }
+
+                // 构建完整文件名
+                String fileName = article.getTitle() + "_" + file.getOriginalFilename();
+                String savePath = fullDirPath + File.separator + fileName;
+
+                // 保存文件
+                file.transferTo(new File(savePath));
+
+                // 保存路径给 article
+                article.setImagePath(StaticUtil.RESOURCE_URL_IMAGE + relativePath + File.separator + fileName);
+            } catch (Exception e) {
+                log.error("图片保存失败", e);
+            }
+        }
+        String filePath = FileWriteUtil.writeMarkdown(articleDetail.getContent(), articleDetail.getTitle(), false);
+        article.setStoragePath(filePath);
+        boolean save = save(article);
+        if (save) {
+            return Results.ok("添加成功");
+        }
+        return Results.fail("添加失败");
     }
 
     private Article getArticleDetail(Integer id, boolean exist) {

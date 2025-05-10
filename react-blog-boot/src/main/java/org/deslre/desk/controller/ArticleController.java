@@ -1,10 +1,12 @@
 package org.deslre.desk.controller;
 
 import lombok.Getter;
+import org.deslre.commons.entity.ArticleDetail;
 import org.deslre.commons.result.Results;
 import org.deslre.desk.entity.vo.ArticleVO;
 import org.deslre.desk.service.ArticleService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -46,8 +48,16 @@ public class ArticleController {
     }
 
     @GetMapping("getArchives")
-    public Results<List<ArticleVO>> getArchives(){
+    public Results<List<ArticleVO>> getArchives() {
         return articleService.getArchives();
+    }
+
+    @PostMapping("saveArticle")
+    public Results<String> saveArticle(
+            @RequestPart("articleDetail") ArticleDetail articleDetail,
+            @RequestPart(value = "file", required = false) MultipartFile file
+    ) {
+        return articleService.saveArticle(articleDetail, file);
     }
 
 }
