@@ -1,5 +1,6 @@
 package org.deslre.commons.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.deslre.commons.entity.ArticleDetail;
 
 import java.io.BufferedReader;
@@ -21,7 +22,7 @@ import java.util.regex.Pattern;
  * Date: 2025-03-28 13:38
  * Version: 1.0
  */
-
+@Slf4j
 public class FileReaderUtil {
 
     public static ArticleDetail parse(String filePath) {
@@ -98,7 +99,7 @@ public class FileReaderUtil {
                 content.append(line).append("\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("读取md文件出现错误,{}", e.getMessage());
             return null;
         }
         return content.toString();
