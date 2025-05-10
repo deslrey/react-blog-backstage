@@ -30,6 +30,11 @@ public class ArticleVO {
     private String title;
 
     /**
+     * 作者
+     */
+    private String author;
+
+    /**
      * 图片地址
      */
     private String imagePath;
@@ -63,7 +68,7 @@ public class ArticleVO {
     /**
      * 内容
      */
-    String content;
+    private String content;
     /**
      * 是否启用
      */

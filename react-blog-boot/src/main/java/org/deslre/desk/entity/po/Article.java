@@ -41,6 +41,11 @@ public class Article implements Serializable {
     private String title;
 
     /**
+     * 作者
+     */
+    private String author;
+
+    /**
      * 图片地址
      */
     private String imagePath;
