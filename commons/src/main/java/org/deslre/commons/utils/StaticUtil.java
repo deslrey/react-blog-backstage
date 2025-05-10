@@ -11,14 +11,23 @@ public class StaticUtil {
 
     public static final Boolean TRUE = true;
     public static final Boolean FALSE = false;
+
+    //  文件映射路径
+    public static final String FILE_PATH = "E:\\staticSource\\";
+
     //    静态资源路径
     public static final String RESOURCE_URL = "http://localhost:8080/deslre/staticSource/";
     //    静态资源路径
     public static final String RESOURCE_DEFAULT = "http://localhost:8080/deslre/staticSource/default/";
     //    图片url
     public static final String RESOURCE_URL_IMAGE = "http://localhost:8080/deslre/staticSource/image/";
+    //    图片存储路径
+    public static final String RESOURCE_IMAGE = FILE_PATH + "image\\";
+
     //    md文件的url
     public static final String RESOURCE_URL_MD = "http://localhost:8080/deslre/staticSource/md/";
+    //    md文件存储路径
+    public static final String RESOURCE_MD = FILE_PATH + "md\\";
     //  默认封面
     public static final String DEFAULT_COVER = RESOURCE_DEFAULT + "cover.webp";
     //默认头像
