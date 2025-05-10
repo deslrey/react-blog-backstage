@@ -21,7 +21,6 @@ public class ArticleVO {
     /**
      * 主键id
      */
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -59,11 +58,25 @@ public class ArticleVO {
      */
     private String category;
 
+    /**
+     * 字数
+     */
+    private Integer wordCount;
+
+    /**
+     * 阅读时长
+     */
+    private Integer readTime;
+
+    /**
+     * 创建日期
+     */
     private LocalDateTime createTime;
 
+    /**
+     * 更新日期
+     */
     private LocalDateTime updateTime;
-
-//    private ArticleDetail articleDetail;
 
     /**
      * 内容

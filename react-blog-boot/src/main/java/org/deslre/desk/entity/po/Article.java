@@ -69,9 +69,24 @@ public class Article implements Serializable {
      * 分类
      */
     private String category;
+    /**
+     * 字数
+     */
+    private Integer wordCount;
 
+    /**
+     * 阅读时长
+     */
+    private Integer readTime;
+
+    /**
+     * 创建日期
+     */
     private LocalDateTime createTime;
 
+    /**
+     * 更新日期
+     */
     private LocalDateTime updateTime;
 
     /**
