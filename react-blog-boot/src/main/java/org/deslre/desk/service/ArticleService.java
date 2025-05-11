@@ -21,7 +21,7 @@ public interface ArticleService extends IService<Article> {
 
     Results<List<ArticleVO>> getArticlePage(Integer page, Integer size);
 
-    Results<List<ArticleVO>> getArticleList();
+    Results<List<ArticleVO>> articleList(Boolean exist);
 
     Results<List<ArticleVO>> getArchives();
 

@@ -85,8 +85,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public Results<List<ArticleVO>> getArticleList() {
-        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>().eq(Article::getExist, StaticUtil.TRUE);
+    public Results<List<ArticleVO>> articleList(Boolean exist) {
+        //  默认查询只可查看的数据
+        if (exist == null) {
+            exist = StaticUtil.TRUE;
+        }
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>().eq(Article::getExist, exist);
         List<Article> articleList = list(queryWrapper);
         if (articleList == null || articleList.isEmpty()) {
             throw new DeslreException("查看文章列表失败");
