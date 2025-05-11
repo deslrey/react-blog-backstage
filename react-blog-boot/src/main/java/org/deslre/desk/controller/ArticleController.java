@@ -42,9 +42,14 @@ public class ArticleController {
         return articleService.getArticlePage(page, size);
     }
 
-    @PostMapping("/articleList")
-    public Results<List<ArticleVO>> articleList(Boolean exist) {
-        return articleService.articleList(exist);
+    @GetMapping("/getArticleList")
+    public Results<List<ArticleVO>> getArticleList() {
+        return articleService.getArticleList();
+    }
+
+    @GetMapping("articleList")
+    public Results<List<ArticleVO>> articleList() {
+        return articleService.articleList();
     }
 
     @GetMapping("getArchives")
