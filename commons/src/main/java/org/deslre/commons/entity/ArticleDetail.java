@@ -51,11 +51,6 @@ public class ArticleDetail {
     private Integer readTime;
 
     /**
-     * 类型
-     */
-    private String type;
-
-    /**
      * 文章内容
      */
     private String content;
