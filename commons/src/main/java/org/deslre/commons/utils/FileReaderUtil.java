@@ -76,7 +76,6 @@ public class FileReaderUtil {
 
                 case "wordCount" -> articleDetail.setWordCount(Integer.parseInt(value));
                 case "readTime" -> articleDetail.setReadTime(parseReadTime(value));
-                case "type" -> articleDetail.setType(value);
                 default -> {
                 }
             }
