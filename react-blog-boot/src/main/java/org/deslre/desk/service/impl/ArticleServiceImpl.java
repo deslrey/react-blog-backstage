@@ -199,7 +199,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setExist(!exist);
         boolean updatedExist = updateById(article);
         if (updatedExist) {
-            return Results.ok("修改成功,当前文章以隐藏");
+            if (exist)
+                return Results.ok("修改成功,当前文章已隐藏");
+            else
+                return Results.ok("修改成功,当前文章已开启");
         }
         return Results.fail("修改失败,请稍后重试");
 
