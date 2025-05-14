@@ -205,6 +205,26 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     }
 
+    @Override
+    public Results<String> articleContent(Integer id) {
+        if (NumberUtils.isLessThanZero(id)) {
+            log.error("获取文章内容失败,传入的参数为null,id = {}", id);
+            return Results.fail(ResultCodeEnum.EMPTY_VALUE);
+        }
+        Article article = getById(id);
+        if (article == null) {
+            log.error("获取失败,文章不存在");
+            return Results.fail(ResultCodeEnum.CODE_500);
+        }
+        String storagePath = article.getStoragePath();
+        if (StringUtils.isEmpty(storagePath)) {
+            log.error("文章存储地址为空,id = {}", id);
+            return Results.fail(ResultCodeEnum.CODE_500);
+        }
+        String markdownFile = FileReaderUtil.readMarkdownFile(storagePath);
+        return Results.ok(markdownFile);
+    }
+
     private Article getArticleDetail(Integer id, boolean exist) {
         if (NumberUtils.isLessThanZero(id)) {
             return new Article();

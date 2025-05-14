@@ -69,4 +69,9 @@ public class ArticleController {
     public Results<String> updateExist(Integer id, Boolean exist) {
         return articleService.updateExist(id, exist);
     }
+
+    @PostMapping("articleContent")
+    public Results<String> articleContent(Integer id){
+        return articleService.articleContent(id);
+    }
 }

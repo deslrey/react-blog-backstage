@@ -30,4 +30,6 @@ public interface ArticleService extends IService<Article> {
     Results<List<ArticleVO>> articleList();
 
     Results<String> updateExist(Integer id, Boolean exist);
+
+    Results<String> articleContent(Integer id);
 }
