@@ -184,6 +184,27 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return Results.fail("添加失败");
     }
 
+    @Override
+    public Results<String> updateExist(Integer id, Boolean exist) {
+        if (NumberUtils.isLessThanZero(id) || exist == null) {
+            log.error("修改文章状态失败,传入的参数存在null,id = {},exist={}", id, exist);
+            return Results.fail(ResultCodeEnum.EMPTY_VALUE);
+        }
+
+        Article article = getArticleDetail(id, exist);
+        if (article == null) {
+            log.error("修改失败,当前文章不存在");
+            return Results.fail("修改失败,该文章不存在");
+        }
+        article.setExist(!exist);
+        boolean updatedExist = updateById(article);
+        if (updatedExist) {
+            return Results.ok("修改成功,当前文章以隐藏");
+        }
+        return Results.fail("修改失败,请稍后重试");
+
+    }
+
     private Article getArticleDetail(Integer id, boolean exist) {
         if (NumberUtils.isLessThanZero(id)) {
             return new Article();

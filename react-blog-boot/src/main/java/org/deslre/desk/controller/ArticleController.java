@@ -65,4 +65,8 @@ public class ArticleController {
         return articleService.saveArticle(articleDetail, file);
     }
 
+    @PostMapping("updateExist")
+    public Results<String> updateExist(Integer id, Boolean exist) {
+        return articleService.updateExist(id, exist);
+    }
 }

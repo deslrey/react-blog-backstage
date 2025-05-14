@@ -28,4 +28,6 @@ public interface ArticleService extends IService<Article> {
     Results<String> saveArticle(ArticleDetail articleDetail, MultipartFile file);
 
     Results<List<ArticleVO>> articleList();
+
+    Results<String> updateExist(Integer id, Boolean exist);
 }
