@@ -71,7 +71,12 @@ public class ArticleController {
     }
 
     @PostMapping("articleContent")
-    public Results<String> articleContent(Integer id){
+    public Results<String> articleContent(Integer id) {
         return articleService.articleContent(id);
+    }
+
+    @PostMapping("getArticleData")
+    public Results<ArticleVO> getArticleData(Integer id) {
+        return articleService.getArticleData(id);
     }
 }

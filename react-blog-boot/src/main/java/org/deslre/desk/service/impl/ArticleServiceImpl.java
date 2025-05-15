@@ -228,6 +228,34 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return Results.ok(markdownFile);
     }
 
+    @Override
+    public Results<ArticleVO> getArticleData(Integer id) {
+        if (NumberUtils.isLessThanZero(id)) {
+            log.error("获取文章内容失败,传入的参数为null,id = {}", id);
+            return Results.fail(ResultCodeEnum.CODE_500);
+        }
+        Article article = getById(id);
+        if (article == null) {
+            log.error("获取失败,文章不存在");
+            return Results.fail(ResultCodeEnum.CODE_500);
+        }
+        String storagePath = article.getStoragePath();
+        if (StringUtils.isEmpty(storagePath)) {
+            log.error("文章存储地址为空,id = {}", id);
+            return Results.fail(ResultCodeEnum.CODE_500);
+        }
+
+        String rawMarkdown = FileReaderUtil.readMarkdownFile(storagePath);
+        if (StringUtils.isEmpty(rawMarkdown)) {
+            rawMarkdown = "";
+        }
+        String markdownFile = rawMarkdown.replaceFirst("(?s)^---.*?---\\s*", ""); // 关键行
+        ArticleVO articleVO = ArticleConvert.INSTANCE.convertVO(article);
+        articleVO.setContent(markdownFile);
+        return Results.ok(articleVO);
+    }
+
+
     private Article getArticleDetail(Integer id, boolean exist) {
         if (NumberUtils.isLessThanZero(id)) {
             return new Article();
