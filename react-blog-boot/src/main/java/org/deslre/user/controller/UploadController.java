@@ -1,10 +1,11 @@
 package org.deslre.user.controller;
 
+import lombok.extern.slf4j.Slf4j;
+import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.deslre.commons.utils.DateUtil;
+import org.deslre.commons.utils.StaticUtil;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -20,22 +21,43 @@ import java.util.UUID;
  * Date: 2025-05-02 15:26
  * Version: 1.0
  */
+@Slf4j
 @RestController
 @RequestMapping("/upload")
 public class UploadController {
 
     @PostMapping("/image")
     public Results<Map<String, Object>> upload(@RequestParam("file") MultipartFile file) throws IOException {
-        // 你可以保存到本地、OSS 或数据库
-        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        String savePath = "E:\\images\\" + filename;
-        file.transferTo(new File(savePath));
 
-        // 返回给前端的 URL
-        String url = "http://localhost:8080/deslre/images/" + filename;
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        try {
+            String currentYear = DateUtil.getCurrentYear();
+            String currentMonth = DateUtil.getCurrentMonth();
+            String currentDay = DateUtil.getCurrentDay();
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("url", url);
-        return Results.ok(result);
+            // 构建目录路径
+            String relativePath = currentYear + "/" + currentMonth + "/" + currentDay;
+            String fullDirPath = StaticUtil.RESOURCE_IMAGE + relativePath;
+
+            File dir = new File(fullDirPath);
+            if (!dir.exists()) {
+                boolean created = dir.mkdirs(); // 创建多级目录
+                if (!created) {
+                    log.error("目录创建失败: " + fullDirPath);
+                    return Results.fail(ResultCodeEnum.CODE_500);
+                }
+            }
+            String savePath = fullDirPath + File.separator + fileName;
+
+            // 保存文件
+            file.transferTo(new File(savePath));
+            String imageUrl = StaticUtil.RESOURCE_URL_IMAGE + relativePath + "/" + fileName;
+            Map<String, Object> result = new HashMap<>();
+            result.put("url", imageUrl);
+            return Results.ok(result);
+        } catch (Exception e) {
+            log.error("图片保存失败", e);
+            return Results.fail("图片上传失败");
+        }
     }
 }
