@@ -19,4 +19,6 @@ public interface ArticleDraftService extends IService<ArticleDraft> {
     Results<List<ArticleDraftVO>> getArticleDraftList();
 
     Results<ArticleDraftVO> getArticleDraftData(Integer id);
+
+    Results<String> saveArticleDraft(ArticleDraftVO articleDraftVO);
 }

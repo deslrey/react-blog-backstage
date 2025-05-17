@@ -53,4 +53,25 @@ public class ArticleDraftServiceImpl extends ServiceImpl<ArticleDraftMapper, Art
         ArticleDraftVO articleDraftVO = ArticleDraftConvert.INSTANCE.convert(articleDraft);
         return Results.ok(articleDraftVO);
     }
+
+    @Override
+    public Results<String> saveArticleDraft(ArticleDraftVO articleDraftVO) {
+        if (articleDraftVO == null) {
+            log.error("保存的草稿传入值为 null");
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+        if (NumberUtils.isLessThanZero(articleDraftVO.getId())) {
+            log.error("获取草稿数据传入的id异常 ======{}", articleDraftVO.getId());
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+        ArticleDraft articleDraft = ArticleDraftConvert.INSTANCE.convert(articleDraftVO);
+        ArticleDraft draft = getById(articleDraft.getId());
+        if (draft == null) {
+            articleDraft.setExist(StaticUtil.TRUE);
+            save(articleDraft);
+            return Results.ok("保存成功");
+        }
+        updateById(articleDraft);
+        return Results.ok("保存成功");
+    }
 }

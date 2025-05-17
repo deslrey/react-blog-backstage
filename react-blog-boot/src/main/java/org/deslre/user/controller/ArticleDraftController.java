@@ -36,4 +36,9 @@ public class ArticleDraftController {
     public Results<ArticleDraftVO> getArticleDraftData(Integer id) {
         return articleDraftService.getArticleDraftData(id);
     }
+
+    @PostMapping("saveArticleDraft")
+    public Results<String> saveArticleDraft(ArticleDraftVO articleDraftVO) {
+        return articleDraftService.saveArticleDraft(articleDraftVO);
+    }
 }
