@@ -4,11 +4,7 @@ package org.deslre.user.controller;
 import org.deslre.commons.result.Results;
 import org.deslre.user.entity.vo.ArticleDraftVO;
 import org.deslre.user.service.ArticleDraftService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -38,7 +34,7 @@ public class ArticleDraftController {
     }
 
     @PostMapping("saveArticleDraft")
-    public Results<String> saveArticleDraft(ArticleDraftVO articleDraftVO) {
+    public Results<String> saveArticleDraft(@RequestPart("articleDraft") ArticleDraftVO articleDraftVO) {
         return articleDraftService.saveArticleDraft(articleDraftVO);
     }
 
