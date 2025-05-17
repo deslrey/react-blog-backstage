@@ -1,7 +1,7 @@
 package org.deslre.user.mapper;
 
 import org.apache.ibatis.annotations.Param;
-import org.deslre.user.entity.Permission;
+import org.deslre.user.entity.po.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package org.deslre.user.service;
 
-import org.deslre.user.entity.RolePermission;
+import org.deslre.user.entity.po.RolePermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

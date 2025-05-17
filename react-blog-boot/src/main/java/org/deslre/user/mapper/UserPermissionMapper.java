@@ -1,6 +1,6 @@
 package org.deslre.user.mapper;
 
-import org.deslre.user.entity.UserPermission;
+import org.deslre.user.entity.po.UserPermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

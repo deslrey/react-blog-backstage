@@ -2,8 +2,8 @@ package org.deslre.user.controller;
 
 
 import org.deslre.commons.result.Results;
-import org.deslre.user.entity.Permission;
-import org.deslre.user.entity.User;
+import org.deslre.user.entity.po.Permission;
+import org.deslre.user.entity.po.User;
 import org.deslre.user.service.PermissionService;
 import org.deslre.user.service.UserService;
 import org.springframework.web.bind.annotation.*;

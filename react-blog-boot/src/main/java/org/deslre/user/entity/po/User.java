@@ -1,4 +1,4 @@
-package org.deslre.user.entity;
+package org.deslre.user.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -19,38 +19,19 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("permissions")
-public class Permission implements Serializable {
+@TableName("users")
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 权限/菜单名称
-     */
-    private String name;
+    private String username;
 
-    /**
-     * 前端路由路径
-     */
-    private String path;
+    private String password;
 
-    private String component;
-
-    /**
-     * 支持多级菜单
-     */
-    private Integer parentId;
-
-    private String type;
-
-    private Integer orderNum;
-
-    private Boolean visible;
-
-    private String icon;
+    private Integer roleId;
 
 
 }

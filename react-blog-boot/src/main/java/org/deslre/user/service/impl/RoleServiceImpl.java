@@ -1,6 +1,6 @@
 package org.deslre.user.service.impl;
 
-import org.deslre.user.entity.Role;
+import org.deslre.user.entity.po.Role;
 import org.deslre.user.mapper.RoleMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.deslre.user.service.RoleService;

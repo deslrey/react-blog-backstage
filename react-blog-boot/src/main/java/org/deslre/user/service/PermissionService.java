@@ -3,7 +3,7 @@ package org.deslre.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.deslre.commons.result.Results;
-import org.deslre.user.entity.Permission;
+import org.deslre.user.entity.po.Permission;
 
 import java.util.List;
 

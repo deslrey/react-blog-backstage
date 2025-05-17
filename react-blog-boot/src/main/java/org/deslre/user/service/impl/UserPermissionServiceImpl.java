@@ -1,6 +1,6 @@
 package org.deslre.user.service.impl;
 
-import org.deslre.user.entity.UserPermission;
+import org.deslre.user.entity.po.UserPermission;
 import org.deslre.user.mapper.UserPermissionMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.deslre.user.service.UserPermissionService;
