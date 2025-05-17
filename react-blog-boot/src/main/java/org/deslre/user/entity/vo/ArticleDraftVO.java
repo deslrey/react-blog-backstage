@@ -81,6 +81,6 @@ public class ArticleDraftVO {
     /**
      * 是否启用
      */
-    private Integer exist;
+    private Boolean exist;
 
 }

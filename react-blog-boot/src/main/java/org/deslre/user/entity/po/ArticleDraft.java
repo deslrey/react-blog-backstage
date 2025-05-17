@@ -97,7 +97,7 @@ public class ArticleDraft implements Serializable {
     /**
      * 是否启用
      */
-    private Integer exist;
+    private Boolean exist;
 
 
 }
