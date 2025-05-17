@@ -2,7 +2,10 @@ package org.deslre.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
+import org.deslre.commons.utils.NumberUtils;
 import org.deslre.commons.utils.StaticUtil;
 import org.deslre.user.convert.ArticleDraftConvert;
 import org.deslre.user.entity.po.ArticleDraft;
@@ -21,6 +24,7 @@ import java.util.List;
  * Date: 2025-05-17 19:12
  * Version: 1.0
  */
+@Slf4j
 @Service
 public class ArticleDraftServiceImpl extends ServiceImpl<ArticleDraftMapper, ArticleDraft> implements ArticleDraftService {
     @Override
@@ -32,5 +36,21 @@ public class ArticleDraftServiceImpl extends ServiceImpl<ArticleDraftMapper, Art
         }
         List<ArticleDraftVO> convertList = ArticleDraftConvert.INSTANCE.convertList(articleDraftList);
         return Results.ok(convertList);
+    }
+
+    @Override
+    public Results<ArticleDraftVO> getArticleDraftData(Integer id) {
+        if (NumberUtils.isLessThanZero(id)) {
+            log.error("获取草稿数据传入的id异常 ======{}", id);
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+        LambdaQueryWrapper<ArticleDraft> queryWrapper = new LambdaQueryWrapper<ArticleDraft>().eq(ArticleDraft::getId, id).eq(ArticleDraft::getExist, StaticUtil.TRUE);
+        ArticleDraft articleDraft = getOne(queryWrapper);
+        if (articleDraft == null) {
+            log.error("查询的草稿不存在 id ======> {}", id);
+            return Results.fail("该草稿不存在");
+        }
+        ArticleDraftVO articleDraftVO = ArticleDraftConvert.INSTANCE.convert(articleDraft);
+        return Results.ok(articleDraftVO);
     }
 }

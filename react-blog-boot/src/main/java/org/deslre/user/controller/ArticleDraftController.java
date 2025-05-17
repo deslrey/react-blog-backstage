@@ -5,6 +5,7 @@ import org.deslre.commons.result.Results;
 import org.deslre.user.entity.vo.ArticleDraftVO;
 import org.deslre.user.service.ArticleDraftService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -29,5 +30,10 @@ public class ArticleDraftController {
     @GetMapping("getArticleDraftList")
     public Results<List<ArticleDraftVO>> getArticleDraftList() {
         return articleDraftService.getArticleDraftList();
+    }
+
+    @PostMapping("getArticleDraftData")
+    public Results<ArticleDraftVO> getArticleDraftData(Integer id) {
+        return articleDraftService.getArticleDraftData(id);
     }
 }

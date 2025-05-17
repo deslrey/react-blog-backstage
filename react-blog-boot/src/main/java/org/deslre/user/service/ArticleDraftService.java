@@ -17,4 +17,6 @@ import java.util.List;
 public interface ArticleDraftService extends IService<ArticleDraft> {
 
     Results<List<ArticleDraftVO>> getArticleDraftList();
+
+    Results<ArticleDraftVO> getArticleDraftData(Integer id);
 }
