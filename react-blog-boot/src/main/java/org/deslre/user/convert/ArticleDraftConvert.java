@@ -1,7 +1,11 @@
 package org.deslre.user.convert;
 
+import org.deslre.user.entity.po.ArticleDraft;
+import org.deslre.user.entity.vo.ArticleDraftVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * ClassName: ArticleDraftConvert
@@ -14,4 +18,10 @@ import org.mapstruct.factory.Mappers;
 public interface ArticleDraftConvert {
 
     ArticleDraftConvert INSTANCE = Mappers.getMapper(ArticleDraftConvert.class);
+
+    ArticleDraft convert(ArticleDraftVO vo);
+
+    ArticleDraftVO convert(ArticleDraft articleDraft);
+
+    List<ArticleDraftVO> convertList(List<ArticleDraft> articleDraftList);
 }
