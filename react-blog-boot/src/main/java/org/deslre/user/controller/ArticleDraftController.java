@@ -41,4 +41,9 @@ public class ArticleDraftController {
     public Results<String> saveArticleDraft(ArticleDraftVO articleDraftVO) {
         return articleDraftService.saveArticleDraft(articleDraftVO);
     }
+
+    @PostMapping("deleteArticleDraft")
+    public Results<String> deleteArticleDraft(Integer id) {
+        return articleDraftService.deleteArticleDraft(id);
+    }
 }

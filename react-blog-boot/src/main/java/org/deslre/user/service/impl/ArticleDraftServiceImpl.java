@@ -74,4 +74,19 @@ public class ArticleDraftServiceImpl extends ServiceImpl<ArticleDraftMapper, Art
         updateById(articleDraft);
         return Results.ok("保存成功");
     }
+
+    @Override
+    public Results<String> deleteArticleDraft(Integer id) {
+        if (NumberUtils.isLessThanZero(id)) {
+            log.error("删除的草稿id为 ======> {}", id);
+            return Results.fail("该草稿不存在");
+        }
+        ArticleDraft articleDraft = getById(id);
+        if (articleDraft == null) {
+            return Results.ok();
+        }
+        articleDraft.setExist(false);
+        updateById(articleDraft);
+        return Results.ok();
+    }
 }
