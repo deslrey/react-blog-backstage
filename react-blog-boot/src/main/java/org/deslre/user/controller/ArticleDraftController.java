@@ -1,20 +1,33 @@
 package org.deslre.user.controller;
 
 
+import org.deslre.commons.result.Results;
+import org.deslre.user.entity.vo.ArticleDraftVO;
+import org.deslre.user.service.ArticleDraftService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+import java.util.List;
+
 /**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author author
- * @since 2025-05-17
+ * ClassName: ArticleDraftController
+ * Description: 草稿操作控制器
+ * Author: Deslrey
+ * Date: 2025-05-17 19:12
+ * Version: 1.0
  */
 @RestController
-@RequestMapping("/article-draft")
+@RequestMapping("/articleDraft")
 public class ArticleDraftController {
 
+    @Resource
+    private ArticleDraftService articleDraftService;
+
+    @GetMapping("getArticleDraftList")
+    public Results<List<ArticleDraftVO>> getArticleDraftList() {
+        return articleDraftService.getArticleDraftList();
+    }
 }

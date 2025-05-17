@@ -1,7 +1,11 @@
 package org.deslre.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.deslre.commons.result.Results;
 import org.deslre.user.entity.po.ArticleDraft;
+import org.deslre.user.entity.vo.ArticleDraftVO;
+
+import java.util.List;
 
 /**
  * ClassName: ArticleDraft
@@ -12,4 +16,5 @@ import org.deslre.user.entity.po.ArticleDraft;
  */
 public interface ArticleDraftService extends IService<ArticleDraft> {
 
+    Results<List<ArticleDraftVO>> getArticleDraftList();
 }
