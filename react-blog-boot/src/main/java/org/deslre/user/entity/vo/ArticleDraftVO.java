@@ -19,6 +19,11 @@ public class ArticleDraftVO {
     private Integer id;
 
     /**
+     * 文章id
+     */
+    private Integer articleId;
+
+    /**
      * 文章标题
      */
     private String title;

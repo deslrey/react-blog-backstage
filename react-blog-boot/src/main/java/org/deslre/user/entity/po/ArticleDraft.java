@@ -35,6 +35,11 @@ public class ArticleDraft implements Serializable {
     private Integer id;
 
     /**
+     * 文章id
+     */
+    private Integer articleId;
+
+    /**
      * 文章标题
      */
     private String title;
