@@ -24,70 +24,70 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class FileReaderUtil {
-
-    public static ArticleDetail parse(String filePath) {
-
-        if (StringUtils.isEmpty(filePath)) {
-            return null;
-        }
-
-        String markdownFile = readMarkdownFile(filePath);
-        if (StringUtils.isEmpty(markdownFile)) {
-            return null;
-        }
-
-        // 提取 metadata 部分
-        Pattern pattern = Pattern.compile("---\\s*(.*?)\\s*---", Pattern.DOTALL);
-        Matcher matcher = pattern.matcher(markdownFile);
-        String metadata = "";
-        if (matcher.find()) {
-            metadata = matcher.group(1);
-        }
-
-        // 提取正文内容
-        String content = markdownFile.replaceFirst("---\\s*.*?\\s*---", "").trim();
-
-        ArticleDetail articleDetail = new ArticleDetail();
-
-        for (String line : metadata.split("\n")) {
-            if (!line.contains(":")) continue;
-            String[] parts = line.split(":", 2);
-            String key = parts[0].trim();
-            String value = parts[1].trim();
-
-            switch (key) {
-                case "title" -> articleDetail.setTitle(value);
-                case "author" -> articleDetail.setAuthor(value);
-                case "describe" -> articleDetail.setDescription(value);
-                case "createDate" -> {
-                    // 统一将 / 和 . 替换为 -
-                    String cleanDate = value.replaceAll("[./]", "-");
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-                    LocalDate date = LocalDate.parse(cleanDate, formatter);
-                    articleDetail.setCreateDate(LocalDateTime.of(date, LocalTime.MIDNIGHT));
-                }
-                case "updateDate" -> {
-                    // 统一将 / 和 . 替换为 -
-                    String cleanDate = value.replaceAll("[./]", "-");
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-                    LocalDate date = LocalDate.parse(cleanDate, formatter);
-                    articleDetail.setUpdateDate(LocalDateTime.of(date, LocalTime.MIDNIGHT));
-                }
-
-                case "wordCount" -> articleDetail.setWordCount(Integer.parseInt(value));
-                case "readTime" -> articleDetail.setReadTime(parseReadTime(value));
-                default -> {
-                }
-            }
-        }
-
-        String body = extractMarkdownBody(markdownFile);
-        articleDetail.setContent(body);
-
-        articleDetail.setWordCount(countWords(content));
-
-        return articleDetail;
-    }
+//
+//    public static ArticleDetail parse(String filePath) {
+//
+//        if (StringUtils.isEmpty(filePath)) {
+//            return null;
+//        }
+//
+//        String markdownFile = readMarkdownFile(filePath);
+//        if (StringUtils.isEmpty(markdownFile)) {
+//            return null;
+//        }
+//
+//        // 提取 metadata 部分
+//        Pattern pattern = Pattern.compile("---\\s*(.*?)\\s*---", Pattern.DOTALL);
+//        Matcher matcher = pattern.matcher(markdownFile);
+//        String metadata = "";
+//        if (matcher.find()) {
+//            metadata = matcher.group(1);
+//        }
+//
+//        // 提取正文内容
+//        String content = markdownFile.replaceFirst("---\\s*.*?\\s*---", "").trim();
+//
+//        ArticleDetail articleDetail = new ArticleDetail();
+//
+//        for (String line : metadata.split("\n")) {
+//            if (!line.contains(":")) continue;
+//            String[] parts = line.split(":", 2);
+//            String key = parts[0].trim();
+//            String value = parts[1].trim();
+//
+//            switch (key) {
+//                case "title" -> articleDetail.setTitle(value);
+//                case "author" -> articleDetail.setAuthor(value);
+//                case "describe" -> articleDetail.setDescription(value);
+//                case "createDate" -> {
+//                    // 统一将 / 和 . 替换为 -
+//                    String cleanDate = value.replaceAll("[./]", "-");
+//                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+//                    LocalDate date = LocalDate.parse(cleanDate, formatter);
+//                    articleDetail.setCreateDate(LocalDateTime.of(date, LocalTime.MIDNIGHT));
+//                }
+//                case "updateDate" -> {
+//                    // 统一将 / 和 . 替换为 -
+//                    String cleanDate = value.replaceAll("[./]", "-");
+//                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+//                    LocalDate date = LocalDate.parse(cleanDate, formatter);
+//                    articleDetail.setUpdateDate(LocalDateTime.of(date, LocalTime.MIDNIGHT));
+//                }
+//
+//                case "wordCount" -> articleDetail.setWordCount(Integer.parseInt(value));
+//                case "readTime" -> articleDetail.setReadTime(parseReadTime(value));
+//                default -> {
+//                }
+//            }
+//        }
+//
+//        String body = extractMarkdownBody(markdownFile);
+//        articleDetail.setContent(body);
+//
+//        articleDetail.setWordCount(countWords(content));
+//
+//        return articleDetail;
+//    }
 
 
     public static String readMarkdownFile(String filePath) {
