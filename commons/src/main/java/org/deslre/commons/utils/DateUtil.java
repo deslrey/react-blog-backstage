@@ -70,16 +70,16 @@ public class DateUtil {
     /**
      * 获取以当前日期生成的目录完整路径
      *
-     * @return 完整的目录路径（格式：RESOURCE_IMAGE/yyyy/MM/dd）
+     * @return 完整的目录路径（格式：path/yyyy/MM/dd）
      */
-    public static String getCurrentDateDirectoryPath() {
+    public static String getCurrentDateDirectoryPath(String path) {
         String currentYear = getCurrentYear();
         String currentMonth = getCurrentMonth();
         String currentDay = getCurrentDay();
 
         // 构建目录路径
         String relativePath = currentYear + File.separator + currentMonth + File.separator + currentDay;
-        return StaticUtil.RESOURCE_IMAGE + relativePath;
+        return path + relativePath;
     }
 
     /**
@@ -111,6 +111,5 @@ public class DateUtil {
 //        System.out.println("当前日期: " + getCurrentDay());
 //        System.out.println("当前日期字符串: " + getCurrentDateString());
 //        System.out.println("当前时间字符串: " + getCurrentDateTimeString());
-        System.out.println("getCurrentDateDirectoryPath() = " + getCurrentDateDirectoryPath());
     }
 }
