@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
+import org.deslre.commons.utils.DateUtil;
 import org.deslre.commons.utils.NumberUtils;
 import org.deslre.commons.utils.StaticUtil;
 import org.deslre.user.convert.ArticleDraftConvert;
@@ -13,9 +14,12 @@ import org.deslre.user.entity.vo.ArticleDraftVO;
 import org.deslre.user.mapper.ArticleDraftMapper;
 import org.deslre.user.service.ArticleDraftService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * ClassName: ArticleDraft
@@ -55,24 +59,46 @@ public class ArticleDraftServiceImpl extends ServiceImpl<ArticleDraftMapper, Art
     }
 
     @Override
-    public Results<String> saveArticleDraft(ArticleDraftVO articleDraftVO) {
+    public Results<String> saveArticleDraft(ArticleDraftVO articleDraftVO, MultipartFile file) {
+        System.out.println("articleDraftVO = " + articleDraftVO);
         if (articleDraftVO == null) {
             log.error("保存的草稿传入值为 null");
             return Results.fail(ResultCodeEnum.DATA_ERROR);
         }
-        if (NumberUtils.isLessThanZero(articleDraftVO.getId())) {
-            log.error("获取草稿数据传入的id异常 ======{}", articleDraftVO.getId());
-            return Results.fail(ResultCodeEnum.DATA_ERROR);
-        }
+//        if (NumberUtils.isLessThanZero(articleDraftVO.getId())) {
+//            log.error("获取草稿数据传入的id异常 ======{}", articleDraftVO.getId());
+//            return Results.fail(ResultCodeEnum.DATA_ERROR);
+//        }
         ArticleDraft articleDraft = ArticleDraftConvert.INSTANCE.convert(articleDraftVO);
-        ArticleDraft draft = getById(articleDraft.getId());
-        if (draft == null) {
+        if (file != null) {
+            try {
+                File dir = new File(StaticUtil.RESOURCE_DRAFT_PATH);
+                if (!dir.exists()) {
+                    boolean mkdir = dir.mkdirs();
+                    if (!mkdir) {
+                        log.error("目录创建失败: " + StaticUtil.RESOURCE_DRAFT_PATH);
+                        return Results.fail(ResultCodeEnum.CODE_500);
+                    }
+                }
+                String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                String savePath = StaticUtil.RESOURCE_DRAFT_PATH + File.separator + fileName;
+                file.transferTo(new File(savePath));
+                articleDraft.setImagePath(StaticUtil.RESOURCE_DRAFT + fileName);
+            } catch (Exception e) {
+                log.error("保存草稿封面出现异常: {}", e.getMessage());
+                return Results.fail(ResultCodeEnum.CODE_500);
+            }
+        }
+
+        if (articleDraft.getId() == null) {
             articleDraft.setExist(StaticUtil.TRUE);
             save(articleDraft);
-            return Results.ok("保存成功");
+        } else {
+            ArticleDraft draft = getById(articleDraft.getId());
+            if (draft != null)
+                updateById(articleDraft);
         }
-        updateById(articleDraft);
-        return Results.ok("保存成功");
+        return Results.ok("草稿保存成功");
     }
 
     @Override

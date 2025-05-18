@@ -5,6 +5,7 @@ import org.deslre.commons.result.Results;
 import org.deslre.user.entity.vo.ArticleDraftVO;
 import org.deslre.user.service.ArticleDraftService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -34,8 +35,8 @@ public class ArticleDraftController {
     }
 
     @PostMapping("saveArticleDraft")
-    public Results<String> saveArticleDraft(@RequestPart("articleDraft") ArticleDraftVO articleDraftVO) {
-        return articleDraftService.saveArticleDraft(articleDraftVO);
+    public Results<String> saveArticleDraft(@RequestPart("articleDraft") ArticleDraftVO articleDraftVO, @RequestPart(value = "file", required = false) MultipartFile file) {
+        return articleDraftService.saveArticleDraft(articleDraftVO, file);
     }
 
     @PostMapping("deleteArticleDraft")

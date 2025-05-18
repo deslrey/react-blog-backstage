@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.deslre.commons.result.Results;
 import org.deslre.user.entity.po.ArticleDraft;
 import org.deslre.user.entity.vo.ArticleDraftVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface ArticleDraftService extends IService<ArticleDraft> {
 
     Results<ArticleDraftVO> getArticleDraftData(Integer id);
 
-    Results<String> saveArticleDraft(ArticleDraftVO articleDraftVO);
+    Results<String> saveArticleDraft(ArticleDraftVO articleDraftVO, MultipartFile file);
 
     Results<String> deleteArticleDraft(Integer id);
 }
