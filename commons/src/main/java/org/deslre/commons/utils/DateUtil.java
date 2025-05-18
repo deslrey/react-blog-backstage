@@ -1,5 +1,6 @@
 package org.deslre.commons.utils;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,11 +66,51 @@ public class DateUtil {
         return sdf.format(new Date());
     }
 
+
+    /**
+     * 获取以当前日期生成的目录完整路径
+     *
+     * @return 完整的目录路径（格式：RESOURCE_IMAGE/yyyy/MM/dd）
+     */
+    public static String getCurrentDateDirectoryPath() {
+        String currentYear = getCurrentYear();
+        String currentMonth = getCurrentMonth();
+        String currentDay = getCurrentDay();
+
+        // 构建目录路径
+        String relativePath = currentYear + File.separator + currentMonth + File.separator + currentDay;
+        return StaticUtil.RESOURCE_IMAGE + relativePath;
+    }
+
+    /**
+     * 根据传入的资源URL前缀和文件名，返回以当前日期拼接的完整访问路径
+     *
+     * @param resourceUrlBase 资源URL前缀（如：<a href="http://example.com/images/">...</a>）
+     * @param fileName        文件名（如：abc.jpg）
+     * @return 完整的资源访问路径（格式：resourceUrlBase/yyyy/MM/dd/fileName）
+     */
+    public static String getCurrentDateFileUrlPath(String resourceUrlBase, String fileName) {
+        String currentYear = getCurrentYear();
+        String currentMonth = getCurrentMonth();
+        String currentDay = getCurrentDay();
+
+        String relativePath = currentYear + "/" + currentMonth + "/" + currentDay;
+
+        // 确保 base 路径以 / 结尾
+        if (!resourceUrlBase.endsWith("/")) {
+            resourceUrlBase += "/";
+        }
+
+        return resourceUrlBase + relativePath + "/" + fileName;
+    }
+
+
     public static void main(String[] args) {
-        System.out.println("当前年份: " + getCurrentYear());
-        System.out.println("当前月份: " + getCurrentMonth());
-        System.out.println("当前日期: " + getCurrentDay());
-        System.out.println("当前日期字符串: " + getCurrentDateString());
-        System.out.println("当前时间字符串: " + getCurrentDateTimeString());
+//        System.out.println("当前年份: " + getCurrentYear());
+//        System.out.println("当前月份: " + getCurrentMonth());
+//        System.out.println("当前日期: " + getCurrentDay());
+//        System.out.println("当前日期字符串: " + getCurrentDateString());
+//        System.out.println("当前时间字符串: " + getCurrentDateTimeString());
+        System.out.println("getCurrentDateDirectoryPath() = " + getCurrentDateDirectoryPath());
     }
 }
