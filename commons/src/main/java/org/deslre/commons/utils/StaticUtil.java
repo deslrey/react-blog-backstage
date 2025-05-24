@@ -23,9 +23,13 @@ public class StaticUtil {
     public static final String RESOURCE_URL_IMAGE = "http://localhost:8080/deslre/staticSource/image/";
     //    图片存储路径
     public static final String RESOURCE_IMAGE = FILE_PATH + "image\\";
+    //    草稿图片url
+    public static final String RESOURCE_DRAFT = RESOURCE_URL + "draft/";
+    //    草稿封面存储路径
+    public static final String RESOURCE_DRAFT_PATH = FILE_PATH + "draft";
 
     //    md文件的url
-    public static final String RESOURCE_URL_MD = "http://localhost:8080/deslre/staticSource/md/";
+    public static final String RESOURCE_URL_MD = RESOURCE_URL + "md/";
     //    md文件存储路径
     public static final String RESOURCE_MD = FILE_PATH + "md\\";
     //    默认封面
