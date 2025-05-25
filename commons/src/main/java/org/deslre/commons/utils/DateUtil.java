@@ -2,6 +2,8 @@ package org.deslre.commons.utils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -104,6 +106,18 @@ public class DateUtil {
         return resourceUrlBase + relativePath + "/" + fileName;
     }
 
+    private static final DateTimeFormatter MONTH_PATH_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM");
+    private static final DateTimeFormatter DATE_PATH_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
+    // 获取月份路径：yyyy/MM
+    public static String getMonthPath(LocalDateTime dateTime) {
+        return dateTime.format(MONTH_PATH_FORMATTER);
+    }
+
+    // 获取年月日路径：yyyy/MM/dd
+    public static String getDatePath(LocalDateTime dateTime) {
+        return dateTime.format(DATE_PATH_FORMATTER);
+    }
 
     public static void main(String[] args) {
 //        System.out.println("当前年份: " + getCurrentYear());
@@ -111,5 +125,16 @@ public class DateUtil {
 //        System.out.println("当前日期: " + getCurrentDay());
 //        System.out.println("当前日期字符串: " + getCurrentDateString());
 //        System.out.println("当前时间字符串: " + getCurrentDateTimeString());
+        // 假设你传入的是字符串，先转换为 LocalDateTime
+        String input = "2025-05-15 19:48:34";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime createTime = LocalDateTime.parse(input, formatter);
+
+        // 调用工具类
+        String monthPath = getMonthPath(createTime); // 输出：2025/05
+        String datePath = getDatePath(createTime);   // 输出：2025/05/15
+
+        System.out.println("月路径: " + monthPath);
+        System.out.println("日期路径: " + datePath);
     }
 }
