@@ -63,6 +63,21 @@ public class MarkdownExtractor {
         }
     }
 
+    //  替换 markdown 中的图片路径为目标路径
+    public static String replaceImagePaths(String markdown, String datePath) {
+        Matcher matcher = IMAGE_URL_PATTERN.matcher(markdown);
+        StringBuilder sb = new StringBuilder();
+
+        while (matcher.find()) {
+            String originalUrl = matcher.group(1); // 原始 URL
+            String fileName = originalUrl.substring(originalUrl.lastIndexOf('/') + 1);
+            String newUrl = StaticUtil.RESOURCE_URL_IMAGE + datePath + "/" + fileName;
+            matcher.appendReplacement(sb, "![](" + Matcher.quoteReplacement(newUrl) + ")");
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
         String markdown = """
                 **1111**
@@ -73,5 +88,8 @@ public class MarkdownExtractor {
         List<String> fileNames = extractImageFileNames(markdown);
         fileNames.forEach(System.out::println);
         moveImagesToTargetDir(fileNames, "2025" + File.separator + "05");
+        String newMarkdown = replaceImagePaths(markdown, "2025/05");
+        System.out.println("\n替换后的 Markdown:\n" + newMarkdown);
+
     }
 }
