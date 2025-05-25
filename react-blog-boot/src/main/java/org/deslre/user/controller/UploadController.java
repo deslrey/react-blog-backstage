@@ -31,13 +31,14 @@ public class UploadController {
 
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
         try {
-            String currentYear = DateUtil.getCurrentYear();
-            String currentMonth = DateUtil.getCurrentMonth();
-            String currentDay = DateUtil.getCurrentDay();
+//            String currentYear = DateUtil.getCurrentYear();
+//            String currentMonth = DateUtil.getCurrentMonth();
+//            String currentDay = DateUtil.getCurrentDay();
 
             // 构建目录路径
-            String relativePath = currentYear + "/" + currentMonth + "/" + currentDay;
-            String fullDirPath = StaticUtil.RESOURCE_IMAGE + relativePath;
+//            String relativePath = currentYear + "/" + currentMonth + "/" + currentDay;
+//            String fullDirPath = StaticUtil.RESOURCE_IMAGE + relativePath;
+            String fullDirPath = StaticUtil.RESOURCE_DRAFT_PATH;
 
             File dir = new File(fullDirPath);
             if (!dir.exists()) {
@@ -51,7 +52,8 @@ public class UploadController {
 
             // 保存文件
             file.transferTo(new File(savePath));
-            String imageUrl = StaticUtil.RESOURCE_URL_IMAGE + relativePath + "/" + fileName;
+//            String imageUrl = StaticUtil.RESOURCE_URL_IMAGE + relativePath + "/" + fileName;
+            String imageUrl = StaticUtil.RESOURCE_DRAFT + fileName;
             Map<String, Object> result = new HashMap<>();
             result.put("url", imageUrl);
             return Results.ok(result);
