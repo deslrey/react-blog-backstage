@@ -23,5 +23,7 @@ public interface ArticleDraftService extends IService<ArticleDraft> {
 
     Results<String> saveArticleDraft(ArticleDraftVO articleDraftVO, MultipartFile file);
 
-    Results<String> deleteArticleDraft(Integer id);
+    Results<String> deleteArticleDraft(Integer articleId, Integer articleDraftId);
+
+    Results<String> deleteDraft(Integer id);
 }

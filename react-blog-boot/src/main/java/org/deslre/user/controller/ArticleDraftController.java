@@ -40,7 +40,12 @@ public class ArticleDraftController {
     }
 
     @PostMapping("deleteArticleDraft")
-    public Results<String> deleteArticleDraft(Integer id) {
-        return articleDraftService.deleteArticleDraft(id);
+    public Results<String> deleteArticleDraft(Integer articleId, Integer articleDraftId) {
+        return articleDraftService.deleteArticleDraft(articleId, articleDraftId);
+    }
+
+    @PostMapping("deleteDraft")
+    public Results<String> deleteDraft(Integer id) {
+        return articleDraftService.deleteDraft(id);
     }
 }

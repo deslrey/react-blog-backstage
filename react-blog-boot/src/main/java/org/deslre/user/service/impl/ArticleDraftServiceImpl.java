@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
-import org.deslre.commons.utils.DateUtil;
 import org.deslre.commons.utils.NumberUtils;
 import org.deslre.commons.utils.StaticUtil;
 import org.deslre.user.convert.ArticleDraftConvert;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -65,10 +65,7 @@ public class ArticleDraftServiceImpl extends ServiceImpl<ArticleDraftMapper, Art
             log.error("保存的草稿传入值为 null");
             return Results.fail(ResultCodeEnum.DATA_ERROR);
         }
-//        if (NumberUtils.isLessThanZero(articleDraftVO.getId())) {
-//            log.error("获取草稿数据传入的id异常 ======{}", articleDraftVO.getId());
-//            return Results.fail(ResultCodeEnum.DATA_ERROR);
-//        }
+        articleDraftVO.setUpdateTime(LocalDateTime.now());
         ArticleDraft articleDraft = ArticleDraftConvert.INSTANCE.convert(articleDraftVO);
         if (file != null) {
             try {
@@ -90,6 +87,20 @@ public class ArticleDraftServiceImpl extends ServiceImpl<ArticleDraftMapper, Art
             }
         }
 
+        if (articleDraft.getArticleId() != null) {
+            LambdaQueryWrapper<ArticleDraft> queryWrapper = new LambdaQueryWrapper<ArticleDraft>().eq(ArticleDraft::getArticleId, articleDraft.getArticleId()).eq(ArticleDraft::getExist, StaticUtil.TRUE);
+            ArticleDraft draft = getOne(queryWrapper);
+            if (draft == null) {
+                articleDraft.setId(null);
+                articleDraft.setExist(StaticUtil.TRUE);
+                save(articleDraft);
+                return Results.ok("草稿保存成功");
+            }
+            articleDraft.setId(draft.getId());
+            updateById(articleDraft);
+            return Results.ok("草稿保存成功");
+        }
+
         if (articleDraft.getId() == null) {
             articleDraft.setExist(StaticUtil.TRUE);
             save(articleDraft);
@@ -102,17 +113,36 @@ public class ArticleDraftServiceImpl extends ServiceImpl<ArticleDraftMapper, Art
     }
 
     @Override
-    public Results<String> deleteArticleDraft(Integer id) {
+    public Results<String> deleteArticleDraft(Integer articleId, Integer articleDraftId) {
+        if (NumberUtils.isLessThanZero(articleDraftId)) {
+            log.error("删除的草稿id为 ======> {}", articleDraftId);
+            return Results.fail("该草稿不存在");
+        }
+        LambdaQueryWrapper<ArticleDraft> queryWrapper = new LambdaQueryWrapper<ArticleDraft>().eq(ArticleDraft::getId, articleDraftId).eq(ArticleDraft::getExist, StaticUtil.TRUE);
+        ArticleDraft articleDraft = getOne(queryWrapper);
+        if (articleDraft == null) {
+            log.info("保存删除草稿,该草稿不存在,id ======{}", articleDraftId);
+            return Results.ok();
+        }
+        articleDraft.setExist(StaticUtil.FALSE);
+        updateById(articleDraft);
+        return Results.ok();
+    }
+
+    @Override
+    public Results<String> deleteDraft(Integer id) {
         if (NumberUtils.isLessThanZero(id)) {
             log.error("删除的草稿id为 ======> {}", id);
             return Results.fail("该草稿不存在");
         }
-        ArticleDraft articleDraft = getById(id);
+
+        LambdaQueryWrapper<ArticleDraft> queryWrapper = new LambdaQueryWrapper<ArticleDraft>().eq(ArticleDraft::getId, id).eq(ArticleDraft::getExist, StaticUtil.TRUE);
+        ArticleDraft articleDraft = getOne(queryWrapper);
         if (articleDraft == null) {
-            return Results.ok();
+            return Results.fail("该草稿不存在");
         }
-        articleDraft.setExist(false);
+        articleDraft.setExist(StaticUtil.FALSE);
         updateById(articleDraft);
-        return Results.ok();
+        return Results.ok("删除成功");
     }
 }
