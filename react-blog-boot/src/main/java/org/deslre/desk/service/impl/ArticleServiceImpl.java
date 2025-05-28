@@ -150,7 +150,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 String currentDay = DateUtil.getCurrentDay();
 
                 // 构建目录路径
-                String relativePath = currentYear + File.separator + currentMonth + File.separator + currentDay;
+                String relativePath = currentYear + File.separator + currentMonth + File.separator;
                 String fullDirPath = StaticUtil.RESOURCE_IMAGE + relativePath;
 
                 File dir = new File(fullDirPath);
@@ -175,7 +175,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 log.error("图片保存失败", e);
             }
         }
-        String filePath = FileWriteUtil.writeMarkdown(articleVO.getContent(), articleVO.getTitle(), false);
+
+        String monthPath = DateUtil.getMonthPath(article.getCreateTime());
+
+        String content = articleVO.getContent();
+        if (StringUtils.isNotEmpty(content)) {
+            List<String> urlList = MarkdownExtractor.extractImageFileNames(content);
+            MarkdownExtractor.moveImagesToTargetDir(urlList, monthPath);
+            content = MarkdownExtractor.replaceImagePaths(content, monthPath);
+        }
+
+        String filePath = FileWriteUtil.writeMarkdown(content, articleVO.getTitle(), article.getCreateTime(), false);
         article.setStoragePath(filePath);
         if (NumberUtils.isLessThanZero(article.getId())) {
             save(article);
