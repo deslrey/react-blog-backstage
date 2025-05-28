@@ -16,6 +16,11 @@ import java.time.LocalDateTime;
 public class ArticleDetail {
 
     /**
+     * id
+     */
+    private Integer id;
+
+    /**
      * 标题
      */
     private String title;
@@ -33,12 +38,12 @@ public class ArticleDetail {
     /**
      * 创建日期
      */
-    private LocalDateTime createDate;
+    private LocalDateTime createTime;
 
     /**
      * 更新日期
      */
-    private LocalDateTime updateDate;
+    private LocalDateTime updateTime;
 
     /**
      * 字数
@@ -54,5 +59,10 @@ public class ArticleDetail {
      * 文章内容
      */
     private String content;
+
+    /**
+     * 是否启用
+     */
+    private Boolean exist;
 
 }
