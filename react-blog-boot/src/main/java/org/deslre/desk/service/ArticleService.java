@@ -25,7 +25,7 @@ public interface ArticleService extends IService<Article> {
 
     Results<List<ArticleVO>> getArchives();
 
-    Results<String> saveArticle(ArticleDetail articleDetail, MultipartFile file);
+    Results<String> saveArticle(ArticleVO articleVO, MultipartFile file);
 
     Results<List<ArticleVO>> articleList();
 

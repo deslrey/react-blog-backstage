@@ -59,10 +59,10 @@ public class ArticleController {
 
     @PostMapping("saveArticle")
     public Results<String> saveArticle(
-            @RequestPart("articleDetail") ArticleDetail articleDetail,
+            @RequestPart("ArticleVO") ArticleVO articleVO,
             @RequestPart(value = "file", required = false) MultipartFile file
     ) {
-        return articleService.saveArticle(articleDetail, file);
+        return articleService.saveArticle(articleVO, file);
     }
 
     @PostMapping("updateExist")

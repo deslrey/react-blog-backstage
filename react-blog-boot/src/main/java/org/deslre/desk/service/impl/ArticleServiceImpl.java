@@ -120,12 +120,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public Results<String> saveArticle(ArticleDetail articleDetail, MultipartFile file) {
-        if (articleDetail == null) {
+    public Results<String> saveArticle(ArticleVO articleVO, MultipartFile file) {
+        if (articleVO == null) {
             return Results.fail(ResultCodeEnum.DATA_ERROR);
         }
 
-        Article article = ArticleConvert.INSTANCE.convertArticleDetail(articleDetail);
+        Article article = ArticleConvert.INSTANCE.convert(articleVO);
         if (StringUtils.isEmpty(article.getTitle())) {
             article.setTitle(StaticUtil.DEFAULT_TITLE);
         }
@@ -138,11 +138,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (article.getCreateTime() == null) {
             article.setCreateTime(LocalDateTime.now());
         }
-        if (article.getUpdateTime() == null) {
-            article.setUpdateTime(LocalDateTime.now());
-        }
+        article.setUpdateTime(LocalDateTime.now());
         if (file == null || file.isEmpty()) {
-            article.setImagePath(StaticUtil.DEFAULT_COVER);
+            if (StringUtils.isEmpty(article.getImagePath())) {
+                article.setImagePath(StaticUtil.DEFAULT_COVER);
+            }
         } else {
             try {
                 String currentYear = DateUtil.getCurrentYear();
@@ -175,13 +175,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 log.error("图片保存失败", e);
             }
         }
-        String filePath = FileWriteUtil.writeMarkdown(articleDetail.getContent(), articleDetail.getTitle(), false);
+        String filePath = FileWriteUtil.writeMarkdown(articleVO.getContent(), articleVO.getTitle(), false);
         article.setStoragePath(filePath);
-        boolean save = save(article);
-        if (save) {
+        if (NumberUtils.isLessThanZero(article.getId())) {
+            save(article);
             return Results.ok("添加成功");
         }
-        return Results.fail("添加失败");
+        updateById(article);
+        return Results.ok("修改成功");
     }
 
     @Override
