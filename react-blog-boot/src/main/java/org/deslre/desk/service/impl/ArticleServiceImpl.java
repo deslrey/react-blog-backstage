@@ -188,6 +188,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         String filePath = FileWriteUtil.writeMarkdown(content, articleVO.getTitle(), article.getCreateTime(), false);
         article.setStoragePath(filePath);
         if (NumberUtils.isLessThanZero(article.getId())) {
+            article.setExist(StaticUtil.TRUE);
             save(article);
             return Results.ok("添加成功");
         }
