@@ -29,7 +29,7 @@ public class MarkdownExtractor {
         String fileName;
         while (matcher.find()) {
             url = matcher.group(1); // 提取 URL
-            System.out.println("url = " + url);
+//            System.out.println("url = " + url);
             if (StringUtils.isEmpty(url))
                 continue;
             if (url.startsWith(StaticUtil.RESOURCE_DRAFT)) {
@@ -46,21 +46,21 @@ public class MarkdownExtractor {
         File targetDir = new File(targetBasePath, targetSubDir);
 
         if (!targetDir.exists() && !targetDir.mkdirs()) {
-            System.err.println("无法创建目标目录：" + targetDir.getAbsolutePath());
+            log.error("无法创建目标目录: {}", targetDir.getAbsolutePath());
             return;
         }
 
         for (String sourcePathStr : sourcePaths) {
             File sourceFile = new File(sourcePathStr);
             if (!sourceFile.exists()) {
-                System.err.println("源文件不存在：" + sourcePathStr);
+                log.error("源文件不存在: {}", sourcePathStr);
                 continue;
             }
 
             File targetFile = new File(targetDir, sourceFile.getName());
             try {
                 Files.move(sourceFile.toPath(), targetFile.toPath());
-                System.out.println("已移动: " + sourceFile.getAbsolutePath() + " -> " + targetFile.getAbsolutePath());
+                log.info("已移动: " + sourceFile.getAbsolutePath() + " -> " + targetFile.getAbsolutePath());
             } catch (IOException e) {
                 System.err.println("移动失败: " + sourceFile.getAbsolutePath());
                 log.error("图片移动失败 ======> {}", e.getMessage());
@@ -75,7 +75,7 @@ public class MarkdownExtractor {
 
         while (matcher.find()) {
             String originalUrl = matcher.group(1); // 原始 URL
-            System.out.println("originalUrl = " + originalUrl);
+//            System.out.println("originalUrl = " + originalUrl);
             if (StringUtils.isEmpty(originalUrl)) {
                 continue;
             }
