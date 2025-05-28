@@ -29,8 +29,13 @@ public class MarkdownExtractor {
         String fileName;
         while (matcher.find()) {
             url = matcher.group(1); // 提取 URL
-            fileName = StaticUtil.RESOURCE_DRAFT_PATH + File.separator + url.substring(url.lastIndexOf('/') + 1); // 提取文件名
-            fileNames.add(fileName);
+            System.out.println("url = " + url);
+            if (StringUtils.isEmpty(url))
+                continue;
+            if (url.startsWith(StaticUtil.RESOURCE_DRAFT)) {
+                fileName = StaticUtil.RESOURCE_DRAFT_PATH + File.separator + url.substring(url.lastIndexOf('/') + 1); // 提取文件名
+                fileNames.add(fileName);
+            }
         }
         return fileNames;
     }
@@ -70,9 +75,15 @@ public class MarkdownExtractor {
 
         while (matcher.find()) {
             String originalUrl = matcher.group(1); // 原始 URL
-            String fileName = originalUrl.substring(originalUrl.lastIndexOf('/') + 1);
-            String newUrl = StaticUtil.RESOURCE_URL_IMAGE + datePath + "/" + fileName;
-            matcher.appendReplacement(sb, "![](" + Matcher.quoteReplacement(newUrl) + ")");
+            System.out.println("originalUrl = " + originalUrl);
+            if (StringUtils.isEmpty(originalUrl)) {
+                continue;
+            }
+            if (originalUrl.startsWith(StaticUtil.RESOURCE_DRAFT)) {
+                String fileName = originalUrl.substring(originalUrl.lastIndexOf('/') + 1);
+                String newUrl = StaticUtil.RESOURCE_URL_IMAGE + datePath + "/" + fileName;
+                matcher.appendReplacement(sb, "![](" + Matcher.quoteReplacement(newUrl) + ")");
+            }
         }
         matcher.appendTail(sb);
         return sb.toString();
