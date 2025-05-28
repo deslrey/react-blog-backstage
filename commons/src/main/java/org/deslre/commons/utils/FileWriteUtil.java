@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * ClassName: FileWriteUtil
@@ -26,12 +27,14 @@ public class FileWriteUtil {
      *
      * @param content  要写入的 Markdown 内容
      * @param fileName 文件名（不需要加后缀）
+     * @param dateTime 日期
      * @param append   是否追加写入（true 表示追加，false 表示覆盖）
      * @return 成功则返回文件完整路径，失败返回 null
      */
-    public static String writeMarkdown(String content, String fileName, boolean append) {
+    public static String writeMarkdown(String content, String fileName, LocalDateTime dateTime, boolean append) {
         // 生成完整文件夹路径
-        String dirPath = BASE_PATH + DateUtil.getCurrentYear() + File.separator + DateUtil.getCurrentMonth() + File.separator;
+        String datePath = DateUtil.getMonthPath(dateTime);
+        String dirPath = BASE_PATH + datePath + File.separator;
         File dir = new File(dirPath);
         if (!dir.exists()) {
             boolean mkdir = dir.mkdirs();
