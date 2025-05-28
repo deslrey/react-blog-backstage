@@ -22,6 +22,8 @@ public interface ArticleConvert {
 
     ArticleVO convertVO(Article article);
 
+    Article convert(ArticleVO articleVO);
+
     Article convertArticleDetail(ArticleDetail articleDetail);
 
     List<ArticleVO> convertList(List<Article> articles);
