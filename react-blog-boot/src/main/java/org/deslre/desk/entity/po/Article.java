@@ -92,12 +92,12 @@ public class Article implements Serializable {
     /**
      * 访问量
      */
-    private Integer visit;
+    private Integer pageViews ;
 
     /**
-     * 总访问量
+     * 访客量
      */
-    private Integer totalVisits;
+    private Integer uniqueVisitors;
 
     /**
      * 是否启用
