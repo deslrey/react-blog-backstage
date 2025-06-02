@@ -8,7 +8,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: localhost
-    password: 200381
+    port: 6379
+#    password: 200381
 
 server:
   servlet:
