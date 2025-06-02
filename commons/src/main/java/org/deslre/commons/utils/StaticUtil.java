@@ -43,4 +43,13 @@ public class StaticUtil {
     //    默认描述
     public static final String DEFAULT_DESCRIPTION = "Deslrey的个人博客，记录生活中的点滴，分享编程的乐趣。";
 
+    /*              Redis 相关                */
+
+    private static final String ARTICLE = "article:";
+    //    访客量
+    public static final String UNIQUE_VISITORS = ARTICLE + "uniqueVisitors:";
+
+    //    访问量
+    public static final String PAGE_VIEWS = ARTICLE + "pageViews:";
+
 }
