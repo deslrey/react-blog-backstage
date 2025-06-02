@@ -90,6 +90,16 @@ public class Article implements Serializable {
     private LocalDateTime updateTime;
 
     /**
+     * 访问量
+     */
+    private Integer visit;
+
+    /**
+     * 总访问量
+     */
+    private Integer totalVisits;
+
+    /**
      * 是否启用
      */
     private Boolean exist;

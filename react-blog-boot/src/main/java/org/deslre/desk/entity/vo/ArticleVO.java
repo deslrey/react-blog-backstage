@@ -79,6 +79,16 @@ public class ArticleVO {
     private LocalDateTime updateTime;
 
     /**
+     * 访问量
+     */
+    private Integer visit;
+
+    /**
+     * 总访问量
+     */
+    private Integer totalVisits;
+
+    /**
      * 内容
      */
     private String content;
