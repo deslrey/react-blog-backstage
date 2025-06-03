@@ -49,4 +49,6 @@ public class Visitor implements Serializable {
     private LocalDateTime lastVisit;
 
     private String visitorToken;
+
+    private Boolean isBlock;
 }

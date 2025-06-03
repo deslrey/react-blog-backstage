@@ -38,4 +38,6 @@ public class VisitorVO {
     private LocalDateTime lastVisit;
 
     private String visitorToken;
+
+    private Boolean isBlock;
 }
