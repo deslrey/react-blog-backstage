@@ -3,6 +3,7 @@ package org.deslre.utils;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.deslre.commons.utils.StringUtils;
+import org.deslre.user.entity.po.Region;
 import org.lionsoul.ip2region.xdb.Searcher;
 import org.springframework.core.io.ClassPathResource;
 
@@ -181,7 +182,7 @@ public class IpAddressUtil {
      * 方法四：在线获取IP地址
      * 注：通过别人或者官网提供的API接口去实现查询的功能，弊端就是特别依赖别人的服务器，一旦服务器宕机就无法访问了。
      */
-    public static String getIpAddressByOnline(String ip) {
+    public static Region getIpAddressByOnline(String ip) {
 
         try {
             //1、创建 URLConnction
@@ -218,8 +219,14 @@ public class IpAddressUtil {
                 String country = (String) map.get("country");
                 String city = (String) map.get("city");
                 String regionName = (String) map.get("regionName");
-                //log.info("【国家】{}，【城市】{}，【地区】{}", country, city, regionName);
-                return country + "|" + city + "|" + regionName;
+
+                Region region = new Region();
+                region.setCountry(country);
+                region.setCity(city);
+                region.setRegionName(regionName);
+
+                log.info("【国家】{}，【城市】{}，【地区】{}", country, city, regionName);
+                return region;
             }
         } catch (Exception e) {
             log.error("在线查询IP地址异常，{}", e.getMessage());
