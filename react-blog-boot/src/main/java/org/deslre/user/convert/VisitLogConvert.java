@@ -1,9 +1,7 @@
 package org.deslre.user.convert;
 
 import org.deslre.user.entity.po.VisitLog;
-import org.deslre.user.entity.po.Visitor;
 import org.deslre.user.entity.vo.VisitLogVO;
-import org.deslre.user.entity.vo.VisitorVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
