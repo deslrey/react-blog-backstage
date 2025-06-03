@@ -3,11 +3,10 @@ package org.deslre.utils;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
-import org.deslre.user.entity.po.Visitor;
+import org.deslre.user.entity.po.Region;
+import org.deslre.user.entity.po.VisitorInfo;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * ClassName: VisitorUtil
@@ -21,7 +20,7 @@ public class VisitorUtil {
     /**
      * 获取封装的访客信息
      */
-    public static Visitor buildVisitorInfo(HttpServletRequest request) {
+    public static VisitorInfo buildVisitorInfo(HttpServletRequest request) {
         String ip = getClientIp(request);
         String userAgentString = request.getHeader("User-Agent");
 
@@ -33,17 +32,14 @@ public class VisitorUtil {
         String platform = os.getName();                       // e.g., Windows 10
         String deviceType = os.getDeviceType().getName();     // e.g., Computer / Mobile
 
-        Visitor visitor = new Visitor();
-        visitor.setIp(ip);
-        visitor.setPlatform(platform);
-        visitor.setBrowser(browserName);
-        visitor.setDevice(deviceType);
-        visitor.setVisitCount(1);
-        visitor.setFirstVisit(LocalDateTime.now());
-        visitor.setLastVisit(LocalDateTime.now());
-        visitor.setVisitorToken(UUID.randomUUID().toString());
-
-        return visitor;
+        VisitorInfo visitorInfo = new VisitorInfo();
+        visitorInfo.setIp(ip);
+        visitorInfo.setPlatform(platform);
+        visitorInfo.setBrowser(browserName);
+        visitorInfo.setDevice(deviceType);
+        Region region = IpAddressUtil.getIpAddressByOnline(ip);
+        visitorInfo.setRegion(region);
+        return visitorInfo;
     }
 
     /**
