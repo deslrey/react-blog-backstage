@@ -9,18 +9,23 @@ import org.deslre.commons.utils.StaticUtil;
 import org.deslre.commons.utils.StringUtils;
 import org.deslre.user.convert.VisitorConvert;
 import org.deslre.user.entity.po.Region;
+import org.deslre.user.entity.po.VisitLog;
 import org.deslre.user.entity.po.Visitor;
+import org.deslre.user.entity.po.VisitorInfo;
 import org.deslre.user.entity.vo.VisitorVO;
 import org.deslre.user.mapper.VisitorMapper;
+import org.deslre.user.service.VisitLogService;
 import org.deslre.user.service.VisitorService;
-import org.deslre.utils.IpAddressUtil;
 import org.deslre.utils.VisitorUtil;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * ClassName: VisitorServiceImpl
@@ -32,45 +37,28 @@ import java.util.List;
 @Service
 public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> implements VisitorService {
 
+    @Resource
+    private VisitLogService visitLogService;
+
     @Override
     public Results<VisitorVO> visitorToken(HttpServletRequest request, String visitorToken, Integer visitorId) {
         if (request == null) {
             return Results.fail(ResultCodeEnum.CODE_500);
         }
         Visitor visitor = null;
+        VisitorInfo visitorInfo = null;
+        VisitLog visitLog = null;
+        Region region = null;
         //      如果为null的话就代表首次访问,信息入库并返回token
         if (StringUtils.isEmpty(visitorToken)) {
-            visitor = VisitorUtil.buildVisitorInfo(request);
-            Region region = IpAddressUtil.getIpAddressByOnline(visitor.getIp());
-            System.out.println("region = " + region);
-            if (region != null) {
-                visitor.setProvince(region.getCountry());
-                visitor.setCity(region.getCity());
-            } else {
-                visitor.setProvince("未知");
-                visitor.setCity("未知");
-            }
-            visitor.setIsBlock(StaticUtil.TRUE);
-            save(visitor);
-            VisitorVO convert = VisitorConvert.INSTANCE.convert(visitor);
-            return Results.ok(convert);
+            return getVisitorVOResults(request);
         } else {
-            LambdaQueryWrapper<Visitor> queryWrapper = new LambdaQueryWrapper<Visitor>().eq(Visitor::getVisitorToken, visitorToken);
+            LambdaQueryWrapper<Visitor> queryWrapper = new LambdaQueryWrapper<Visitor>().eq(Visitor::getId, visitorId).eq(Visitor::getVisitorToken, visitorToken);
             visitor = getOne(queryWrapper);
             if (visitor == null) {
-                visitor = VisitorUtil.buildVisitorInfo(request);
-                Region region = IpAddressUtil.getIpAddressByOnline(visitor.getIp());
-                System.out.println("region = " + region);
-                if (region != null) {
-                    visitor.setProvince(region.getCountry());
-                    visitor.setCity(region.getCity());
-                } else {
-                    visitor.setProvince("未知");
-                    visitor.setCity("未知");
-                }
-                save(visitor);
-                VisitorVO convert = VisitorConvert.INSTANCE.convert(visitor);
-                return Results.ok(convert);
+                visitorInfo = VisitorUtil.buildVisitorInfo(request);
+                region = visitorInfo.getRegion();
+                return getVisitorVOResults(request);
             } else {
                 visitor.setLastVisit(LocalDateTime.now());
                 visitor.setVisitCount(visitor.getVisitCount() + 1);
@@ -79,6 +67,38 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
                 return Results.ok(convert);
             }
         }
+    }
+
+    private Results<VisitorVO> getVisitorVOResults(HttpServletRequest request) {
+        VisitorInfo visitorInfo;
+        Region region;
+        Visitor visitor;
+        VisitLog visitLog;
+        visitorInfo = VisitorUtil.buildVisitorInfo(request);
+        region = visitorInfo.getRegion();
+        visitor = new Visitor();
+        visitor.setIp(visitorInfo.getIp());
+        visitor.setVisitCount(1);
+        visitor.setFirstVisit(LocalDateTime.now());
+        visitor.setLastVisit(LocalDateTime.now());
+        visitor.setVisitorToken(UUID.randomUUID().toString());
+        visitor.setIsBlock(StaticUtil.TRUE);
+        save(visitor);
+        VisitorVO convert = VisitorConvert.INSTANCE.convert(visitor);
+
+        visitLog = new VisitLog();
+        visitLog.setVisitorIp(visitorInfo.getIp());
+        visitLog.setArticleId(null);
+        visitLog.setPlatform(visitorInfo.getPlatform());
+        visitLog.setBrowser(visitorInfo.getBrowser());
+        visitLog.setDevice(visitorInfo.getDevice());
+        visitLog.setProvince(region.getCountry() != null ? region.getCountry() : "未知");
+        visitLog.setCity(region.getCity() != null ? region.getCity() : "未知");
+        visitLog.setVisitTime(LocalDateTime.now());
+        visitLog.setVisitDate(LocalDate.now());
+        visitLog.setDescription("IP: " + visitorInfo.getIp() + " 访问主页");
+        visitLogService.save(visitLog);
+        return Results.ok(convert);
     }
 
 
