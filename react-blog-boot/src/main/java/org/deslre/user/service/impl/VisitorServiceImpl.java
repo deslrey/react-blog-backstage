@@ -64,9 +64,31 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
                 visitor.setVisitCount(visitor.getVisitCount() + 1);
                 updateById(visitor);
                 VisitorVO convert = VisitorConvert.INSTANCE.convert(visitor);
-                return Results.ok(convert);
+
+                visitorInfo = VisitorUtil.buildVisitorInfo(request);
+                region = visitorInfo.getRegion();
+                return getVisitorVOResults(visitorInfo, region, convert);
             }
         }
+    }
+
+    private Results<VisitorVO> getVisitorVOResults(VisitorInfo visitorInfo, Region region, VisitorVO convert) {
+        VisitLog visitLog;
+        visitLog = new VisitLog();
+        visitLog.setVisitorIp(visitorInfo.getIp());
+        visitLog.setArticleId(null);
+        visitLog.setPlatform(visitorInfo.getPlatform());
+        visitLog.setBrowser(visitorInfo.getBrowser());
+        visitLog.setDevice(visitorInfo.getDevice());
+        visitLog.setProvince(region.getCountry() != null ? region.getCountry() : "未知");
+        visitLog.setCity(region.getCity() != null ? region.getCity() : "未知");
+        visitLog.setVisitTime(LocalDateTime.now());
+        visitLog.setVisitDate(LocalDate.now());
+        visitLog.setDescription("IP: " + visitorInfo.getIp() + " 访问主页");
+        visitLog.setExist(StaticUtil.TRUE);
+        visitLogService.save(visitLog);
+
+        return Results.ok(convert);
     }
 
     private Results<VisitorVO> getVisitorVOResults(HttpServletRequest request) {
@@ -86,20 +108,7 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
         save(visitor);
         VisitorVO convert = VisitorConvert.INSTANCE.convert(visitor);
 
-        visitLog = new VisitLog();
-        visitLog.setVisitorIp(visitorInfo.getIp());
-        visitLog.setArticleId(null);
-        visitLog.setPlatform(visitorInfo.getPlatform());
-        visitLog.setBrowser(visitorInfo.getBrowser());
-        visitLog.setDevice(visitorInfo.getDevice());
-        visitLog.setProvince(region.getCountry() != null ? region.getCountry() : "未知");
-        visitLog.setCity(region.getCity() != null ? region.getCity() : "未知");
-        visitLog.setVisitTime(LocalDateTime.now());
-        visitLog.setVisitDate(LocalDate.now());
-        visitLog.setDescription("IP: " + visitorInfo.getIp() + " 访问主页");
-        visitLog.setExist(StaticUtil.TRUE);
-        visitLogService.save(visitLog);
-        return Results.ok(convert);
+        return getVisitorVOResults(visitorInfo, region, convert);
     }
 
 
