@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ClassName: VisitorServiceImpl
@@ -74,5 +76,16 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
                 return Results.ok(convert);
             }
         }
+    }
+
+
+    @Override
+    public Results<List<VisitorVO>> visitorList() {
+        List<Visitor> visitorList = list();
+        if (visitorList == null || visitorList.isEmpty()) {
+            return Results.ok(new ArrayList<>(), "暂无访客");
+        }
+        List<VisitorVO> convertList = VisitorConvert.INSTANCE.convertListVO(visitorList);
+        return Results.ok(convertList);
     }
 }

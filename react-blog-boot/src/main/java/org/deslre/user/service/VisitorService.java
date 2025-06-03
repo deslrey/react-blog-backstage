@@ -6,6 +6,7 @@ import org.deslre.user.entity.po.Visitor;
 import org.deslre.user.entity.vo.VisitorVO;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * ClassName: VisitorService
@@ -16,4 +17,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface VisitorService extends IService<Visitor> {
     Results<VisitorVO> visitorToken(HttpServletRequest request, String visitorToken, Integer visitorId);
+
+    Results<List<VisitorVO>> visitorList();
 }

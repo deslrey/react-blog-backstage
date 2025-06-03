@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * ClassName: VisitorController
@@ -30,5 +31,9 @@ public class VisitorController {
         return visitorService.visitorToken(request, visitorToken, visitorId);
     }
 
+    @GetMapping("visitorList")
+    public Results<List<VisitorVO>> visitorList() {
+        return visitorService.visitorList();
+    }
 }
 
