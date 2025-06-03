@@ -50,6 +50,7 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
                 visitor.setProvince("未知");
                 visitor.setCity("未知");
             }
+            visitor.setIsBlock(StaticUtil.TRUE);
             save(visitor);
             VisitorVO convert = VisitorConvert.INSTANCE.convert(visitor);
             return Results.ok(convert);
