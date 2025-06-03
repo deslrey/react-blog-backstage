@@ -3,11 +3,13 @@ package org.deslre.desk.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.deslre.commons.entity.ArticleDetail;
 import org.deslre.commons.result.Results;
+import org.deslre.desk.entity.dto.ArticleViewDTO;
 import org.deslre.desk.entity.po.Article;
 import org.deslre.desk.entity.vo.ArticleVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName: ArticleService
@@ -34,4 +36,6 @@ public interface ArticleService extends IService<Article> {
     Results<String> articleContent(Integer id);
 
     Results<ArticleVO> getArticleData(Integer id);
+
+    Results<List<ArticleViewDTO>> findTopByPageViews();
 }

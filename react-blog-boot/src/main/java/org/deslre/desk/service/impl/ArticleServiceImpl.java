@@ -9,6 +9,7 @@ import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
 import org.deslre.commons.utils.*;
 import org.deslre.desk.convert.ArticleConvert;
+import org.deslre.desk.entity.dto.ArticleViewDTO;
 import org.deslre.desk.entity.po.Article;
 import org.deslre.desk.entity.vo.ArticleVO;
 import org.deslre.desk.mapper.ArticleMapper;
@@ -20,9 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * ClassName: ArticleServiceImpl
@@ -265,6 +265,23 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         ArticleVO articleVO = ArticleConvert.INSTANCE.convertVO(article);
         articleVO.setContent(markdownFile);
         return Results.ok(articleVO);
+    }
+
+    @Override
+    public Results<List<ArticleViewDTO>> findTopByPageViews() {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>()
+                .orderByDesc(Article::getPageViews)
+                .select(Article::getTitle, Article::getPageViews)
+                .last("LIMIT 5");
+        List<Article> topArticles = this.getBaseMapper().selectList(queryWrapper);
+
+        List<ArticleViewDTO> result = topArticles.stream().map(article -> {
+            ArticleViewDTO dto = new ArticleViewDTO();
+            dto.setTitle(article.getTitle());
+            dto.setPageViews(article.getPageViews());
+            return dto;
+        }).collect(Collectors.toList());
+        return Results.ok(result);
     }
 
 
