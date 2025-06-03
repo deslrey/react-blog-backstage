@@ -35,5 +35,10 @@ public class VisitorController {
     public Results<List<VisitorVO>> visitorList() {
         return visitorService.visitorList();
     }
+
+    @PostMapping("blockVisitor")
+    public Results<Boolean> blockVisitor(Integer visitorId, Boolean isBlock) {
+        return visitorService.blockVisitor(visitorId, isBlock);
+    }
 }
 

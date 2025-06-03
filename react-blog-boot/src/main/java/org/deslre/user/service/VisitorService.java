@@ -19,4 +19,6 @@ public interface VisitorService extends IService<Visitor> {
     Results<VisitorVO> visitorToken(HttpServletRequest request, String visitorToken, Integer visitorId);
 
     Results<List<VisitorVO>> visitorList();
+
+    Results<Boolean> blockVisitor(Integer visitorId, Boolean isBlock);
 }

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
+import org.deslre.commons.utils.NumberUtils;
+import org.deslre.commons.utils.StaticUtil;
 import org.deslre.commons.utils.StringUtils;
 import org.deslre.user.convert.VisitorConvert;
 import org.deslre.user.entity.po.Region;
@@ -87,5 +89,22 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
         }
         List<VisitorVO> convertList = VisitorConvert.INSTANCE.convertListVO(visitorList);
         return Results.ok(convertList);
+    }
+
+    @Override
+    public Results<Boolean> blockVisitor(Integer visitorId, Boolean isBlock) {
+        if (NumberUtils.isLessThanZero(visitorId) || isBlock == null) {
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+        Visitor visitor = getById(visitorId);
+        if (visitor == null) {
+            return Results.fail("该用户不存在,请稍后重试!");
+        }
+        visitor.setIsBlock(!isBlock);
+        boolean updated = updateById(visitor);
+        if (updated) {
+            return Results.ok("修改成功!");
+        }
+        return Results.fail("修改失败");
     }
 }
