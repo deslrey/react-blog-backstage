@@ -184,6 +184,15 @@ public class IpAddressUtil {
      */
     public static Region getIpAddressByOnline(String ip) {
 
+        Region region = new Region();
+
+        if (StringUtils.isNotEmpty(ip) && ip.equals("127.0.0.1")) {
+            region.setCountry("本机");
+            region.setCity("本机");
+            region.setRegionName("本机");
+            return region;
+        }
+
         try {
             //1、创建 URLConnction
             URL url = new URL("http://ip-api.com/json/" + ip + "?lang=zh-CN");
@@ -219,8 +228,6 @@ public class IpAddressUtil {
                 String country = (String) map.get("country");
                 String city = (String) map.get("city");
                 String regionName = (String) map.get("regionName");
-
-                Region region = new Region();
                 region.setCountry(country);
                 region.setCity(city);
                 region.setRegionName(regionName);
@@ -258,7 +265,8 @@ public class IpAddressUtil {
 
     public static void main(String[] args) {
 
-        String ip = "8.148.30.136";// 国内IP
+//        String ip = "8.148.30.136";// 国内IP
+        String ip = "127.0.0.1";// 国内IP
         String abroadIp = "54.238.57.53"; // 国外IP
 
         System.out.println("方法一（国内）：" + getIpPossessionByFile(ip));
