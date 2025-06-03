@@ -1,7 +1,13 @@
 package org.deslre.user.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.deslre.commons.result.Results;
+import org.deslre.user.entity.vo.VisitorVO;
+import org.deslre.user.service.VisitorService;
+import org.deslre.utils.VisitorUtil;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * ClassName: VisitorController
@@ -13,6 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/visitor")
 public class VisitorController {
+
+    @Resource
+    private VisitorService visitorService;
+
+    @PostMapping("visitorToken")
+    public Results<VisitorVO> visitorToken(HttpServletRequest request,
+                                           @RequestHeader(value = "X-Visitor-Token", required = false) String visitorToken,
+                                           @RequestHeader(value = "X-Visitor-Id", required = false) Integer visitorId) {
+        return visitorService.visitorToken(request, visitorToken, visitorId);
+    }
 
 }
 

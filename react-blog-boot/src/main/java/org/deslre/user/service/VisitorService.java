@@ -1,7 +1,11 @@
 package org.deslre.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.deslre.commons.result.Results;
 import org.deslre.user.entity.po.Visitor;
+import org.deslre.user.entity.vo.VisitorVO;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * ClassName: VisitorService
@@ -11,4 +15,5 @@ import org.deslre.user.entity.po.Visitor;
  * Version: 1.0
  */
 public interface VisitorService extends IService<Visitor> {
+    Results<VisitorVO> visitorToken(HttpServletRequest request, String visitorToken, Integer visitorId);
 }
