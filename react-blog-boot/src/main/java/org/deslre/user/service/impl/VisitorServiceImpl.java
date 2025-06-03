@@ -97,6 +97,7 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
         visitLog.setVisitTime(LocalDateTime.now());
         visitLog.setVisitDate(LocalDate.now());
         visitLog.setDescription("IP: " + visitorInfo.getIp() + " 访问主页");
+        visitLog.setExist(StaticUtil.TRUE);
         visitLogService.save(visitLog);
         return Results.ok(convert);
     }

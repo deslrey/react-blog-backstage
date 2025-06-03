@@ -39,4 +39,7 @@ public class VisitLogVO {
     private LocalDate visitDate;
 
     private String description;
+
+    private Boolean exist;
+
 }

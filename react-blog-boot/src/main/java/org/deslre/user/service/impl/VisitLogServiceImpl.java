@@ -1,7 +1,9 @@
 package org.deslre.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
+import org.deslre.commons.utils.NumberUtils;
 import org.deslre.user.convert.VisitLogConvert;
 import org.deslre.user.entity.po.VisitLog;
 import org.deslre.user.entity.vo.VisitLogVO;
@@ -29,5 +31,18 @@ public class VisitLogServiceImpl extends ServiceImpl<VisitLogMapper, VisitLog> i
         }
         List<VisitLogVO> convertList = VisitLogConvert.INSTANCE.convertListVO(visitLogList);
         return Results.ok(convertList);
+    }
+
+    @Override
+    public Results<Boolean> updateExist(Integer id, Boolean exist) {
+        if (NumberUtils.isLessThanZero(id) || exist == null) {
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+        VisitLog visitLog = getById(id);
+        if (visitLog == null) {
+            return Results.fail(ResultCodeEnum.CODE_500);
+        }
+        visitLog.setExist(!exist);
+        return Results.ok(exist ? "隐藏成功" : "开启成功");
     }
 }

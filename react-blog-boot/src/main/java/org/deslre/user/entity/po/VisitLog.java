@@ -50,4 +50,7 @@ public class VisitLog implements Serializable {
     private LocalDate visitDate;
 
     private String description;
+
+    private Boolean exist;
+
 }

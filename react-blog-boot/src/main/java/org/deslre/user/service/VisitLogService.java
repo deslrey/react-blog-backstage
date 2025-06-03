@@ -17,4 +17,6 @@ import java.util.List;
 public interface VisitLogService extends IService<VisitLog> {
 
     Results<List<VisitLogVO>> visitLogList();
+
+    Results<Boolean> updateExist(Integer id, Boolean exist);
 }

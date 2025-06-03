@@ -4,6 +4,7 @@ import org.deslre.commons.result.Results;
 import org.deslre.user.entity.vo.VisitLogVO;
 import org.deslre.user.service.VisitLogService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +28,11 @@ public class VisitLogController {
     @GetMapping("visitLogList")
     public Results<List<VisitLogVO>> visitLogList() {
         return visitLogService.visitLogList();
+    }
+
+    @PostMapping("updateExist")
+    public Results<Boolean> updateExist(Integer id, Boolean exist) {
+        return visitLogService.updateExist(id, exist);
     }
 
 }
