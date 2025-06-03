@@ -81,12 +81,7 @@ public class ArticleVO {
     /**
      * 访问量
      */
-    private Integer pageViews ;
-
-    /**
-     * 访客量
-     */
-    private Integer uniqueVisitors;
+    private Integer pageViews;
 
     /**
      * 内容

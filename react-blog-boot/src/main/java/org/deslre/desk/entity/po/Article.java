@@ -95,11 +95,6 @@ public class Article implements Serializable {
     private Integer pageViews ;
 
     /**
-     * 访客量
-     */
-    private Integer uniqueVisitors;
-
-    /**
      * 是否启用
      */
     private Boolean exist;
