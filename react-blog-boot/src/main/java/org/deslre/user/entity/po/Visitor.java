@@ -32,16 +32,6 @@ public class Visitor implements Serializable {
 
     private String ip;
 
-    private String platform;
-
-    private String browser;
-
-    private String device;
-
-    private String province;
-
-    private String city;
-
     private Integer visitCount;
 
     private LocalDateTime firstVisit;

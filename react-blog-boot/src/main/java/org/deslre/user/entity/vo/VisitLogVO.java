@@ -24,8 +24,19 @@ public class VisitLogVO {
 
     private Long articleId;
 
+    private String platform;
+
+    private String browser;
+
+    private String device;
+
+    private String province;
+
+    private String city;
+
     private LocalDateTime visitTime;
 
     private LocalDate visitDate;
 
+    private String description;
 }
