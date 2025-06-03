@@ -47,4 +47,6 @@ public class Visitor implements Serializable {
     private LocalDateTime firstVisit;
 
     private LocalDateTime lastVisit;
+
+    private String visitorToken;
 }
