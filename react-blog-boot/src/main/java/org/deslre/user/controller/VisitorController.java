@@ -27,8 +27,9 @@ public class VisitorController {
     @PostMapping("visitorToken")
     public Results<VisitorVO> visitorToken(HttpServletRequest request,
                                            @RequestHeader(value = "X-Visitor-Token", required = false) String visitorToken,
-                                           @RequestHeader(value = "X-Visitor-Id", required = false) Integer visitorId) {
-        return visitorService.visitorToken(request, visitorToken, visitorId);
+                                           @RequestHeader(value = "X-Visitor-Id", required = false) Integer visitorId,
+                                           String des) {
+        return visitorService.visitorToken(request, visitorToken, visitorId, des);
     }
 
     @GetMapping("visitorList")

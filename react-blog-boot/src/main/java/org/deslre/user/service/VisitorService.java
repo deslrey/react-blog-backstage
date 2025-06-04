@@ -16,7 +16,7 @@ import java.util.List;
  * Version: 1.0
  */
 public interface VisitorService extends IService<Visitor> {
-    Results<VisitorVO> visitorToken(HttpServletRequest request, String visitorToken, Integer visitorId);
+    Results<VisitorVO> visitorToken(HttpServletRequest request, String visitorToken, Integer visitorId, String des);
 
     Results<List<VisitorVO>> visitorList();
 

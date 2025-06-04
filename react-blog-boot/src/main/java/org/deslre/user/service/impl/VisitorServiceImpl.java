@@ -41,7 +41,7 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
     private VisitLogService visitLogService;
 
     @Override
-    public Results<VisitorVO> visitorToken(HttpServletRequest request, String visitorToken, Integer visitorId) {
+    public Results<VisitorVO> visitorToken(HttpServletRequest request, String visitorToken, Integer visitorId, String des) {
         if (request == null) {
             return Results.fail(ResultCodeEnum.CODE_500);
         }
@@ -51,14 +51,14 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
         Region region = null;
         //      如果为null的话就代表首次访问,信息入库并返回token
         if (StringUtils.isEmpty(visitorToken)) {
-            return getVisitorVOResults(request);
+            return getVisitorVOResults(request, des);
         } else {
             LambdaQueryWrapper<Visitor> queryWrapper = new LambdaQueryWrapper<Visitor>().eq(Visitor::getId, visitorId).eq(Visitor::getVisitorToken, visitorToken);
             visitor = getOne(queryWrapper);
             if (visitor == null) {
                 visitorInfo = VisitorUtil.buildVisitorInfo(request);
                 region = visitorInfo.getRegion();
-                return getVisitorVOResults(request);
+                return getVisitorVOResults(request, des);
             } else {
                 visitor.setLastVisit(LocalDateTime.now());
                 visitor.setVisitCount(visitor.getVisitCount() + 1);
@@ -67,12 +67,12 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
 
                 visitorInfo = VisitorUtil.buildVisitorInfo(request);
                 region = visitorInfo.getRegion();
-                return getVisitorVOResults(visitorInfo, region, convert);
+                return getVisitorVOResults(visitorInfo, region, convert, des);
             }
         }
     }
 
-    private Results<VisitorVO> getVisitorVOResults(VisitorInfo visitorInfo, Region region, VisitorVO convert) {
+    private Results<VisitorVO> getVisitorVOResults(VisitorInfo visitorInfo, Region region, VisitorVO convert, String des) {
         VisitLog visitLog;
         visitLog = new VisitLog();
         visitLog.setVisitorIp(visitorInfo.getIp());
@@ -84,14 +84,14 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
         visitLog.setCity(region.getCity() != null ? region.getCity() : "未知");
         visitLog.setVisitTime(LocalDateTime.now());
         visitLog.setVisitDate(LocalDate.now());
-        visitLog.setDescription("IP: " + visitorInfo.getIp() + " 访问主页");
+        visitLog.setDescription("IP: " + visitorInfo.getIp() + " 访问: " + des);
         visitLog.setExist(StaticUtil.TRUE);
         visitLogService.save(visitLog);
 
         return Results.ok(convert);
     }
 
-    private Results<VisitorVO> getVisitorVOResults(HttpServletRequest request) {
+    private Results<VisitorVO> getVisitorVOResults(HttpServletRequest request, String des) {
         VisitorInfo visitorInfo;
         Region region;
         Visitor visitor;
@@ -108,7 +108,7 @@ public class VisitorServiceImpl extends ServiceImpl<VisitorMapper, Visitor> impl
         save(visitor);
         VisitorVO convert = VisitorConvert.INSTANCE.convert(visitor);
 
-        return getVisitorVOResults(visitorInfo, region, convert);
+        return getVisitorVOResults(visitorInfo, region, convert, des);
     }
 
 
