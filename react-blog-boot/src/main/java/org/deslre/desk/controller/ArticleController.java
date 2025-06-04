@@ -36,8 +36,9 @@ public class ArticleController {
     }
 
     @PostMapping("getArticleDetail")
-    public Results<ArticleVO> getArticleDetail(Integer articleId, HttpServletRequest request) {
-        return articleService.getArticleDetail(articleId);
+    public Results<ArticleVO> getArticleDetail(Integer articleId, HttpServletRequest request, @RequestHeader(value = "X-Visitor-Token", required = false) String visitorToken,
+                                               @RequestHeader(value = "X-Visitor-Id", required = false) Integer visitorId) {
+        return articleService.getArticleDetail(articleId, request, visitorToken, visitorId);
     }
 
     @PostMapping("/getArticlePage")

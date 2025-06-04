@@ -15,11 +15,23 @@ import org.deslre.desk.entity.vo.ArticleVO;
 import org.deslre.desk.mapper.ArticleMapper;
 import org.deslre.desk.service.ArticleService;
 import org.deslre.exception.DeslreException;
+import org.deslre.user.entity.po.Region;
+import org.deslre.user.entity.po.VisitLog;
+import org.deslre.user.entity.po.Visitor;
+import org.deslre.user.entity.po.VisitorInfo;
+import org.deslre.user.service.VisitLogService;
+import org.deslre.user.service.VisitorService;
+import org.deslre.utils.IpAddressUtil;
+import org.deslre.utils.VisitorUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,8 +48,15 @@ import java.util.stream.Collectors;
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
+    @Resource
+    private VisitorService visitorService;
+
+    @Resource
+    private VisitLogService visitLogService;
+
     @Override
-    public Results<ArticleVO> getArticleDetail(Integer articleId) {
+    public Results<ArticleVO> getArticleDetail(Integer articleId, HttpServletRequest request, @RequestHeader(value = "X-Visitor-Token", required = false) String visitorToken,
+                                               @RequestHeader(value = "X-Visitor-Id", required = false) Integer visitorId) {
         if (articleId == null || articleId <= 0) {
             throw new DeslreException(ResultCodeEnum.CODE_501);
         }
@@ -62,7 +81,36 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
 
         ArticleVO articleVO = ArticleConvert.INSTANCE.convertVO(article);
+        article.setPageViews(article.getPageViews() + 1);
+        updateById(article);
         articleVO.setContent(markdownFile);
+
+        if (NumberUtils.isLessThanZero(visitorId)) {
+            return Results.fail(ResultCodeEnum.CODE_500);
+        }
+
+        LambdaQueryWrapper<Visitor> queryWrapper = new LambdaQueryWrapper<Visitor>().eq(Visitor::getId, visitorId).eq(Visitor::getVisitorToken, visitorToken);
+        Visitor visitor = visitorService.getOne(queryWrapper);
+        visitor.setLastVisit(LocalDateTime.now());
+        visitor.setVisitCount(visitor.getVisitCount() + 1);
+        visitorService.updateById(visitor);
+
+        VisitLog visitLog = new VisitLog();
+        VisitorInfo visitorInfo = VisitorUtil.buildVisitorInfo(request);
+        Region region = visitorInfo.getRegion();
+
+        visitLog.setVisitorIp(visitorInfo.getIp());
+        visitLog.setArticleId(Long.valueOf(articleId));
+        visitLog.setPlatform(visitorInfo.getPlatform());
+        visitLog.setBrowser(visitorInfo.getBrowser());
+        visitLog.setDevice(visitorInfo.getDevice());
+        visitLog.setProvince(region.getCountry() != null ? region.getCountry() : "未知");
+        visitLog.setCity(region.getCity() != null ? region.getCity() : "未知");
+        visitLog.setVisitTime(LocalDateTime.now());
+        visitLog.setVisitDate(LocalDate.now());
+        visitLog.setDescription("IP: " + visitorInfo.getIp() + " 访问文章 《" + articleVO.getTitle() + "》");
+        visitLog.setExist(StaticUtil.TRUE);
+        visitLogService.save(visitLog);
 
         return Results.ok(articleVO);
     }
