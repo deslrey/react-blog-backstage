@@ -22,6 +22,6 @@ public class Region {
     /**
      * 注册地
      */
-    private String regionName;
+    private String province;
 
 }

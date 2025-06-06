@@ -189,7 +189,7 @@ public class IpAddressUtil {
         if (StringUtils.isNotEmpty(ip) && ip.equals("127.0.0.1")) {
             region.setCountry("本机");
             region.setCity("本机");
-            region.setRegionName("本机");
+            region.setProvince("本机");
             return region;
         }
 
@@ -230,7 +230,7 @@ public class IpAddressUtil {
                 String regionName = (String) map.get("regionName");
                 region.setCountry(country);
                 region.setCity(city);
-                region.setRegionName(regionName);
+                region.setProvince(regionName);
 
                 log.info("【国家】{}，【城市】{}，【地区】{}", country, city, regionName);
                 return region;
@@ -266,7 +266,8 @@ public class IpAddressUtil {
     public static void main(String[] args) {
 
 //        String ip = "8.148.30.136";// 国内IP
-        String ip = "127.0.0.1";// 国内IP
+        String ip = "117.154.73.154";// 国内IP
+//        String ip = "127.0.0.1";// 国内IP
         String abroadIp = "54.238.57.53"; // 国外IP
 
         System.out.println("方法一（国内）：" + getIpPossessionByFile(ip));

@@ -30,6 +30,8 @@ public class VisitLogVO {
 
     private String device;
 
+    private String country;
+
     private String province;
 
     private String city;

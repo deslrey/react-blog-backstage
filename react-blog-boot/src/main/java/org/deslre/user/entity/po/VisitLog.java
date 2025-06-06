@@ -41,6 +41,8 @@ public class VisitLog implements Serializable {
 
     private String device;
 
+    private String country;
+
     private String province;
 
     private String city;

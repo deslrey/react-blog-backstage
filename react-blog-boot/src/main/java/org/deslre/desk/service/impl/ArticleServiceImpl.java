@@ -104,7 +104,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         visitLog.setPlatform(visitorInfo.getPlatform());
         visitLog.setBrowser(visitorInfo.getBrowser());
         visitLog.setDevice(visitorInfo.getDevice());
-        visitLog.setProvince(region.getCountry() != null ? region.getCountry() : "未知");
+        visitLog.setCountry(region.getCountry() != null ? region.getCountry() : "未知");
+        visitLog.setProvince(region.getProvince() != null ? region.getProvince() : "未知");
         visitLog.setCity(region.getCity() != null ? region.getCity() : "未知");
         visitLog.setVisitTime(LocalDateTime.now());
         visitLog.setVisitDate(LocalDate.now());
