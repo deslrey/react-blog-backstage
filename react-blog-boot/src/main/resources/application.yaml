@@ -15,3 +15,7 @@ server:
   servlet:
     context-path: /deslre
   port: 8080
+
+custom:
+#  static-source-path: /opt/staticSource
+  static-source-path: E:\\staticSource

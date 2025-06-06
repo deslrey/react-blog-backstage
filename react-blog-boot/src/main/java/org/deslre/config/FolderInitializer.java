@@ -1,5 +1,6 @@
 package org.deslre.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +9,8 @@ import java.io.File;
 @Component
 public class FolderInitializer implements CommandLineRunner {
 
-    private static final String folderPath = "E:\\staticSource"; // 你想保存图片的路径
+    @Value("${custom.static-source-path}")
+    private String folderPath; // 你想保存图片的路径
 
     @Override
     public void run(String... args) throws Exception {

@@ -1,5 +1,7 @@
 package org.deslre.commons.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * ClassName: StaticUtil
  * Description: 状态工具类
@@ -13,7 +15,9 @@ public class StaticUtil {
     public static final Boolean FALSE = false;
 
     //    文件映射路径
-    public static final String FILE_PATH = "E:\\staticSource\\";
+//    public static final String FILE_PATH = "/opt/staticSource";
+    @Value("${custom.static-source-path}")
+    public static String FILE_PATH;
 
     //    静态资源路径
     public static final String RESOURCE_URL = "http://localhost:8080/deslre/staticSource/";
