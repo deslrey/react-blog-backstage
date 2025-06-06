@@ -56,10 +56,10 @@ public interface VisitLogMapper extends BaseMapper<VisitLog> {
     /**
      * 查询最近5天每天的访问量统计
      */
-    @Select("SELECT DATE(visit_time) as date, COUNT(*) as count " +
+    @Select("SELECT DATE(visit_date) as date, COUNT(*) as count " +
             "FROM visit_log " +
-            "WHERE visit_time >= DATE_SUB(CURDATE(), INTERVAL 4 DAY) " +
-            "GROUP BY DATE(visit_time) " +
+            "WHERE visit_date >= DATE_SUB(CURDATE(), INTERVAL 4 DAY) " +
+            "GROUP BY DATE(visit_date) " +
             "ORDER BY date ASC")
     List<DailyVisitCount> selectLast5DaysVisitCount();
 
