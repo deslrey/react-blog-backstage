@@ -4,14 +4,20 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
 import org.deslre.commons.utils.NumberUtils;
+import org.deslre.desk.entity.dto.ArticleViewDTO;
 import org.deslre.user.convert.VisitLogConvert;
+import org.deslre.user.entity.po.DailyVisitCount;
 import org.deslre.user.entity.po.VisitLog;
 import org.deslre.user.entity.vo.VisitLogVO;
 import org.deslre.user.mapper.VisitLogMapper;
 import org.deslre.user.service.VisitLogService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * ClassName: VisitLogServiceImpl
@@ -44,5 +50,32 @@ public class VisitLogServiceImpl extends ServiceImpl<VisitLogMapper, VisitLog> i
         }
         visitLog.setExist(!exist);
         return Results.ok(exist ? "隐藏成功" : "开启成功");
+    }
+
+    @Override
+    public Results<List<ArticleViewDTO>> getDailyTop5Articles() {
+        List<ArticleViewDTO> dailyTop5Articles = this.baseMapper.getDailyTop5Articles();
+        return Results.ok(dailyTop5Articles);
+    }
+
+    @Override
+    public Results<List<DailyVisitCount>> getLast5DaysVisitCount() {
+        List<DailyVisitCount> list = this.baseMapper.selectLast5DaysVisitCount();
+
+        // 补全没有访问记录的日期，保证一定有5天数据
+        Map<String, Integer> map = list.stream()
+                .collect(Collectors.toMap(DailyVisitCount::getDate, DailyVisitCount::getCount));
+
+        List<DailyVisitCount> result = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+
+        for (int i = 4; i >= 0; i--) {
+            LocalDate date = today.minusDays(i);
+            String dateStr = date.toString();
+            Integer count = map.getOrDefault(dateStr, 0);
+            result.add(new DailyVisitCount(dateStr, count));
+        }
+
+        return Results.ok(result);
     }
 }

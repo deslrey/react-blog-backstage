@@ -1,6 +1,8 @@
 package org.deslre.user.controller;
 
 import org.deslre.commons.result.Results;
+import org.deslre.desk.entity.dto.ArticleViewDTO;
+import org.deslre.user.entity.po.DailyVisitCount;
 import org.deslre.user.entity.vo.VisitLogVO;
 import org.deslre.user.service.VisitLogService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,4 +37,13 @@ public class VisitLogController {
         return visitLogService.updateExist(id, exist);
     }
 
+    @GetMapping("/top5")
+    public Results<List<ArticleViewDTO>> getDailyTop5Articles() {
+        return visitLogService.getDailyTop5Articles();
+    }
+
+    @GetMapping("/last5days")
+    public Results<List<DailyVisitCount>> getLast5DaysVisitCount() {
+        return visitLogService.getLast5DaysVisitCount();
+    }
 }

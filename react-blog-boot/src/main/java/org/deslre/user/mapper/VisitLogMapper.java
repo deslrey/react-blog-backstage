@@ -1,7 +1,12 @@
 package org.deslre.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
+import org.deslre.desk.entity.dto.ArticleViewDTO;
+import org.deslre.user.entity.po.DailyVisitCount;
 import org.deslre.user.entity.po.VisitLog;
+
+import java.util.List;
 
 /**
  * ClassName: VisitLogMapper
@@ -11,5 +16,51 @@ import org.deslre.user.entity.po.VisitLog;
  * Version: 1.0
  */
 public interface VisitLogMapper extends BaseMapper<VisitLog> {
+
+    @Select("""
+               SELECT
+                                                        	title,
+                                                        	pageViews\s
+                                                        FROM
+                                                        	(
+                                                        	SELECT
+                                                        		a.title,
+                                                        		DATE ( v.visit_date ) AS visit_date,
+                                                        		COUNT(*) AS pageViews,
+                                                        		@rn :=
+                                                        	IF
+                                                        		( @CURRENT_DATE = DATE ( v.visit_date ), @rn + 1, 1 ) AS rn,
+                                                        		@CURRENT_DATE := DATE ( v.visit_date )\s
+                                                        	FROM
+                                                        		visit_log v
+                                                        		JOIN article a ON v.article_id = a.id,
+                                                        		( SELECT @rn := 0, @CURRENT_DATE := NULL ) vars\s
+                                                        	WHERE
+                                                        		v.article_id IS NOT NULL\s
+                                                        		AND v.exist = 1\s
+                                                        	GROUP BY
+                                                        		DATE ( v.visit_date ),
+                                                        		v.article_id\s
+                                                        	ORDER BY
+                                                        		DATE ( v.visit_date ),
+                                                        		pageViews DESC\s
+                                                        	) AS ranked\s
+                                                        WHERE
+                                                        	rn <= 5\s
+                                                        ORDER BY
+                                                        	visit_date DESC,
+                                                        	pageViews DESC;
+            """)
+    List<ArticleViewDTO> getDailyTop5Articles();
+
+    /**
+     * 查询最近5天每天的访问量统计
+     */
+    @Select("SELECT DATE(visit_time) as date, COUNT(*) as count " +
+            "FROM visit_log " +
+            "WHERE visit_time >= DATE_SUB(CURDATE(), INTERVAL 4 DAY) " +
+            "GROUP BY DATE(visit_time) " +
+            "ORDER BY date ASC")
+    List<DailyVisitCount> selectLast5DaysVisitCount();
 
 }
