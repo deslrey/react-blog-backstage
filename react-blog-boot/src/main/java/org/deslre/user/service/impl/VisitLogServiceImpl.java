@@ -6,7 +6,7 @@ import org.deslre.commons.result.Results;
 import org.deslre.commons.utils.NumberUtils;
 import org.deslre.desk.entity.dto.ArticleViewDTO;
 import org.deslre.user.convert.VisitLogConvert;
-import org.deslre.user.entity.po.DailyVisitCount;
+import org.deslre.user.entity.po.VisitCount;
 import org.deslre.user.entity.po.VisitLog;
 import org.deslre.user.entity.vo.VisitLogVO;
 import org.deslre.user.mapper.VisitLogMapper;
@@ -59,21 +59,21 @@ public class VisitLogServiceImpl extends ServiceImpl<VisitLogMapper, VisitLog> i
     }
 
     @Override
-    public Results<List<DailyVisitCount>> getLast5DaysVisitCount() {
-        List<DailyVisitCount> list = this.baseMapper.selectLast5DaysVisitCount();
+    public Results<List<VisitCount>> getLast5DaysVisitCount() {
+        List<VisitCount> list = this.baseMapper.selectLast5DaysVisitCount();
 
         // 补全没有访问记录的日期，保证一定有5天数据
         Map<String, Integer> map = list.stream()
-                .collect(Collectors.toMap(DailyVisitCount::getDate, DailyVisitCount::getCount));
+                .collect(Collectors.toMap(VisitCount::getTitle, VisitCount::getCount));
 
-        List<DailyVisitCount> result = new ArrayList<>();
+        List<VisitCount> result = new ArrayList<>();
         LocalDate today = LocalDate.now();
 
         for (int i = 4; i >= 0; i--) {
             LocalDate date = today.minusDays(i);
             String dateStr = date.toString();
             Integer count = map.getOrDefault(dateStr, 0);
-            result.add(new DailyVisitCount(dateStr, count));
+            result.add(new VisitCount(dateStr, count));
         }
 
         return Results.ok(result);

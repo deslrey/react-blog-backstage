@@ -3,7 +3,7 @@ package org.deslre.user.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.deslre.commons.result.Results;
 import org.deslre.desk.entity.dto.ArticleViewDTO;
-import org.deslre.user.entity.po.DailyVisitCount;
+import org.deslre.user.entity.po.VisitCount;
 import org.deslre.user.entity.po.VisitLog;
 import org.deslre.user.entity.vo.VisitLogVO;
 
@@ -24,5 +24,5 @@ public interface VisitLogService extends IService<VisitLog> {
 
     Results<List<ArticleViewDTO>> getDailyTop5Articles();
 
-    Results<List<DailyVisitCount>> getLast5DaysVisitCount();
+    Results<List<VisitCount>> getLast5DaysVisitCount();
 }

@@ -3,7 +3,7 @@ package org.deslre.user.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 import org.deslre.desk.entity.dto.ArticleViewDTO;
-import org.deslre.user.entity.po.DailyVisitCount;
+import org.deslre.user.entity.po.VisitCount;
 import org.deslre.user.entity.po.VisitLog;
 
 import java.util.List;
@@ -61,6 +61,6 @@ public interface VisitLogMapper extends BaseMapper<VisitLog> {
             "WHERE visit_date >= DATE_SUB(CURDATE(), INTERVAL 4 DAY) " +
             "GROUP BY DATE(visit_date) " +
             "ORDER BY date ASC")
-    List<DailyVisitCount> selectLast5DaysVisitCount();
+    List<VisitCount> selectLast5DaysVisitCount();
 
 }
