@@ -1,6 +1,6 @@
 package org.deslre.commons.utils;
 
-import org.springframework.beans.factory.annotation.Value;
+import java.io.File;
 
 /**
  * ClassName: StaticUtil
@@ -16,8 +16,8 @@ public class StaticUtil {
 
     //    文件映射路径
 //    public static final String FILE_PATH = "/opt/staticSource";
-    @Value("${custom.static-source-path}")
-    public static String FILE_PATH;
+//    @Value("${custom.static-source-path}")
+    public static String FILE_PATH = "E:\\staticSource\\";
 
     //    静态资源路径
     public static final String RESOURCE_URL = "http://localhost:8080/deslre/staticSource/";
@@ -26,16 +26,16 @@ public class StaticUtil {
     //    图片url
     public static final String RESOURCE_URL_IMAGE = "http://localhost:8080/deslre/staticSource/image/";
     //    图片存储路径
-    public static final String RESOURCE_IMAGE = FILE_PATH + "image\\";
+    public static final String RESOURCE_IMAGE = FILE_PATH + "image" + File.separator;
     //    草稿图片url
-    public static final String RESOURCE_DRAFT = RESOURCE_URL + "draft/";
+    public static final String RESOURCE_DRAFT = RESOURCE_URL + "draft" + File.separator;
     //    草稿封面存储路径
     public static final String RESOURCE_DRAFT_PATH = FILE_PATH + "draft";
 
     //    md文件的url
     public static final String RESOURCE_URL_MD = RESOURCE_URL + "md/";
     //    md文件存储路径
-    public static final String RESOURCE_MD = FILE_PATH + "md\\";
+    public static final String RESOURCE_MD = FILE_PATH + "md" + File.separator;
     //    默认封面
     public static final String DEFAULT_COVER = RESOURCE_DEFAULT + "cover.webp";
     //    默认头像
