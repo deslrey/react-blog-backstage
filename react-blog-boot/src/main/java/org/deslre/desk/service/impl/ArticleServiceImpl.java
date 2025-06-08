@@ -10,6 +10,7 @@ import org.deslre.commons.result.Results;
 import org.deslre.commons.utils.*;
 import org.deslre.desk.convert.ArticleConvert;
 import org.deslre.desk.entity.dto.ArticleViewDTO;
+import org.deslre.desk.entity.dto.MetadataDTO;
 import org.deslre.desk.entity.po.Article;
 import org.deslre.desk.entity.vo.ArticleVO;
 import org.deslre.desk.mapper.ArticleMapper;
@@ -237,6 +238,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         String filePath = FileWriteUtil.writeMarkdown(content, articleVO.getTitle(), article.getCreateTime(), false);
         article.setStoragePath(filePath);
         if (NumberUtils.isLessThanZero(article.getId())) {
+            article.setPageViews(0);
             article.setExist(StaticUtil.TRUE);
             save(article);
             return Results.ok("添加成功");
@@ -333,6 +335,27 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return Results.ok(result);
     }
 
+    @Override
+    public Results<MetadataDTO> metadata(Integer articleId) {
+        if (NumberUtils.isLessThanZero(articleId)) {
+            log.error("获取MetaData传入的 articleId = {}", articleId);
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>()
+                .select(Article::getTitle, Article::getDescription)
+                .eq(Article::getId, articleId)
+                .eq(Article::getExist, StaticUtil.TRUE);
+        Article article = getOne(queryWrapper);
+        if (article == null) {
+            log.error("获取文章id = {} 的MetaData不存在", articleId);
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+        MetadataDTO metaData = new MetadataDTO();
+        metaData.setTitle(article.getTitle());
+        metaData.setDescription(article.getDescription());
+
+        return Results.ok(metaData);
+    }
 
     private Article getArticleDetail(Integer id, boolean exist) {
         if (NumberUtils.isLessThanZero(id)) {

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.deslre.commons.entity.ArticleDetail;
 import org.deslre.commons.result.Results;
 import org.deslre.desk.entity.dto.ArticleViewDTO;
+import org.deslre.desk.entity.dto.MetadataDTO;
 import org.deslre.desk.entity.po.Article;
 import org.deslre.desk.entity.vo.ArticleVO;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -41,4 +42,6 @@ public interface ArticleService extends IService<Article> {
     Results<ArticleVO> getArticleData(Integer id);
 
     Results<List<ArticleViewDTO>> findTopByPageViews();
+
+    Results<MetadataDTO> metadata(Integer articleId);
 }
