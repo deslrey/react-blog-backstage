@@ -46,7 +46,7 @@ public class InvitationCodes implements Serializable {
     /**
      * 被谁使用（用户ID）
      */
-    private Long usedBy;
+    private Integer usedBy;
 
     /**
      * 使用时间
@@ -56,17 +56,17 @@ public class InvitationCodes implements Serializable {
     /**
      * 邀请码生成者ID（可选）
      */
-    private Long createdBy;
+    private Integer createdBy;
 
     /**
      * 邀请码生成时间
      */
-    private LocalDateTime createdAt;
+    private LocalDateTime createdTime;
 
     /**
      * 邀请码过期时间（可选）
      */
-    private LocalDateTime expiresAt;
+    private LocalDateTime expiresTime;
 
     /**
      * 是否启用

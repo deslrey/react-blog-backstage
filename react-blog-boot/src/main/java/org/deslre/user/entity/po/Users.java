@@ -49,6 +49,8 @@ public class Users implements Serializable {
 
     private LocalDateTime lastTime;
 
+    private Boolean admin;
+
     /**
      * 是否存在（1正常，0禁用）
      */

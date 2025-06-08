@@ -1,5 +1,6 @@
 package org.deslre.user.service;
 
+import org.deslre.commons.result.Results;
 import org.deslre.user.entity.po.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UsersService extends IService<Users> {
 
+    Results<Void> register(String email, String inviteCode);
 }
