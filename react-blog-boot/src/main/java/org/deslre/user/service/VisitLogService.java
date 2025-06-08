@@ -22,7 +22,9 @@ public interface VisitLogService extends IService<VisitLog> {
 
     Results<Boolean> updateExist(Integer id, Boolean exist);
 
-    Results<List<ArticleViewDTO>> getDailyTop5Articles();
+    Results<List<VisitCount>> getDailyTop5Articles();
 
     Results<List<VisitCount>> getLast5DaysVisitCount();
+
+    Results<List<VisitCount>> getVisitCountByProvince();
 }

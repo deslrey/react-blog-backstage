@@ -1,7 +1,6 @@
 package org.deslre.user.controller;
 
 import org.deslre.commons.result.Results;
-import org.deslre.desk.entity.dto.ArticleViewDTO;
 import org.deslre.user.entity.po.VisitCount;
 import org.deslre.user.entity.vo.VisitLogVO;
 import org.deslre.user.service.VisitLogService;
@@ -38,12 +37,17 @@ public class VisitLogController {
     }
 
     @GetMapping("/top5")
-    public Results<List<ArticleViewDTO>> getDailyTop5Articles() {
+    public Results<List<VisitCount>> getDailyTop5Articles() {
         return visitLogService.getDailyTop5Articles();
     }
 
     @GetMapping("/last5days")
     public Results<List<VisitCount>> getLast5DaysVisitCount() {
         return visitLogService.getLast5DaysVisitCount();
+    }
+
+    @GetMapping("getVisitCountByProvince")
+    public Results<List<VisitCount>> getVisitCountByProvince() {
+        return visitLogService.getVisitCountByProvince();
     }
 }

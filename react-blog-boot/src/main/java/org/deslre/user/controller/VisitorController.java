@@ -3,7 +3,6 @@ package org.deslre.user.controller;
 import org.deslre.commons.result.Results;
 import org.deslre.user.entity.vo.VisitorVO;
 import org.deslre.user.service.VisitorService;
-import org.deslre.utils.VisitorUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

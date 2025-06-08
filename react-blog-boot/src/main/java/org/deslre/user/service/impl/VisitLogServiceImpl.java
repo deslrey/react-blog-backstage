@@ -53,8 +53,8 @@ public class VisitLogServiceImpl extends ServiceImpl<VisitLogMapper, VisitLog> i
     }
 
     @Override
-    public Results<List<ArticleViewDTO>> getDailyTop5Articles() {
-        List<ArticleViewDTO> dailyTop5Articles = this.baseMapper.getDailyTop5Articles();
+    public Results<List<VisitCount>> getDailyTop5Articles() {
+        List<VisitCount> dailyTop5Articles = this.baseMapper.getDailyTop5Articles();
         return Results.ok(dailyTop5Articles);
     }
 
@@ -77,5 +77,11 @@ public class VisitLogServiceImpl extends ServiceImpl<VisitLogMapper, VisitLog> i
         }
 
         return Results.ok(result);
+    }
+
+    @Override
+    public Results<List<VisitCount>> getVisitCountByProvince() {
+        List<VisitCount> visitCountList = this.getBaseMapper().getVisitCountByProvince();
+        return Results.ok(visitCountList);
     }
 }
