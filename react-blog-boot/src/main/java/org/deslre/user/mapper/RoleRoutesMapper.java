@@ -1,6 +1,6 @@
 package org.deslre.user.mapper;
 
-import org.deslre.user.entity.po.RolePermission;
+import org.deslre.user.entity.po.RoleRoutes;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author author
- * @since 2025-04-24
+ * @since 2025-06-08
  */
-public interface RolePermissionMapper extends BaseMapper<RolePermission> {
+public interface RoleRoutesMapper extends BaseMapper<RoleRoutes> {
 
 }

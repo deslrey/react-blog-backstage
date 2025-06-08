@@ -14,6 +14,11 @@ public class StaticUtil {
     public static final Boolean TRUE = true;
     public static final Boolean FALSE = false;
 
+    public static final String SUPER_ADMIN = "super_admin";
+    public static final String ADMIN = "admin";
+    public static final String USER = "user";
+
+
     //    文件映射路径
 //    public static final String FILE_PATH = "/opt/staticSource";
 //    @Value("${custom.static-source-path}")

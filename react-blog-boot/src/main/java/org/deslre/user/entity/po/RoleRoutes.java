@@ -14,25 +14,20 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2025-04-24
+ * @since 2025-06-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("user_permissions")
-public class UserPermission implements Serializable {
+@TableName("role_routes")
+public class RoleRoutes implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "user_id", type = IdType.AUTO)
-    private Integer userId;
+    @TableId(value = "role", type = IdType.AUTO)
+    private String role;
 
-    private Integer permissionId;
-
-    /**
-     * true 添加，false 屏蔽
-     */
-    private Boolean isGranted;
+    private Integer routeId;
 
 
 }

@@ -14,43 +14,24 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author author
- * @since 2025-04-24
+ * @since 2025-06-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("permissions")
-public class Permission implements Serializable {
+@TableName("routes")
+public class Routes implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    /**
-     * 权限/菜单名称
-     */
-    private String name;
-
-    /**
-     * 前端路由路径
-     */
     private String path;
 
-    private String component;
+    private String name;
 
-    /**
-     * 支持多级菜单
-     */
-    private Integer parentId;
-
-    private String type;
-
-    private Integer orderNum;
-
-    private Boolean visible;
-
-    private String icon;
+    private String description;
 
 
 }

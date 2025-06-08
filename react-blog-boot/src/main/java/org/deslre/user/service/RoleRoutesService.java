@@ -1,6 +1,6 @@
 package org.deslre.user.service;
 
-import org.deslre.user.entity.po.RolePermission;
+import org.deslre.user.entity.po.RoleRoutes;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author author
- * @since 2025-04-24
+ * @since 2025-06-08
  */
-public interface RolePermissionService extends IService<RolePermission> {
+public interface RoleRoutesService extends IService<RoleRoutes> {
 
 }

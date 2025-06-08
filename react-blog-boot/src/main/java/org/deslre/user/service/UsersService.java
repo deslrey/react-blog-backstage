@@ -1,6 +1,6 @@
 package org.deslre.user.service;
 
-import org.deslre.user.entity.po.Role;
+import org.deslre.user.entity.po.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author author
- * @since 2025-04-24
+ * @since 2025-06-08
  */
-public interface RoleService extends IService<Role> {
+public interface UsersService extends IService<Users> {
 
 }
