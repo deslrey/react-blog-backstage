@@ -70,4 +70,9 @@ public class UsersController {
         return usersService.updatePassWord(email, oldPassWord, newPassWord);
     }
 
+    @PostMapping("updateUserName")
+    public Results<UserVO> updateUserName(String email, String userName) {
+        return usersService.updateUserName(email, userName);
+    }
+
 }

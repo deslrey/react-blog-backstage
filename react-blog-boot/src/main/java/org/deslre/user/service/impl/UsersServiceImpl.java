@@ -185,4 +185,26 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, User> implements 
         updateById(user);
         return Results.ok("密码修改成功");
     }
+
+    @Override
+    public Results<UserVO> updateUserName(String email, String userName) {
+        if (StringUtils.isEmpty(email) || StringUtils.isEmpty(userName)) {
+            return Results.fail(ResultCodeEnum.EMPTY_VALUE);
+        }
+        if (!RegexUtils.checkEmail(email)) {
+            return Results.fail("邮箱号格式错误");
+        }
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>().eq(User::getEmail, email);
+        User user = getOne(queryWrapper);
+        if (user == null) {
+            return Results.fail("修改失败,该用户不存在");
+        }
+        if (user.getUserName().equals(userName)) {
+            return Results.fail("修改失败,新昵称和旧昵称不能相同");
+        }
+        user.setUserName(userName);
+        updateById(user);
+        UserVO vo = UserConvert.INSTANCE.convert(user);
+        return Results.ok(vo, "昵称修改成功");
+    }
 }
