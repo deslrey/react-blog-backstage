@@ -1,8 +1,9 @@
 package org.deslre.user.service;
 
 import org.deslre.commons.result.Results;
-import org.deslre.user.entity.po.Users;
+import org.deslre.user.entity.po.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.deslre.user.entity.vo.UserVO;
 
 /**
  * <p>
@@ -12,7 +13,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author author
  * @since 2025-06-08
  */
-public interface UsersService extends IService<Users> {
+public interface UsersService extends IService<User> {
 
-    Results<Void> register(String email, String inviteCode);
+    Results<Void> register(String userName, String email, String passWord, String inviteCode);
+
+    Results<UserVO> login(String email, String passWord);
+
+    Results<Void> block(Integer userId, Boolean exist);
+
+    Results<Void> sendEmailCode(String email);
 }

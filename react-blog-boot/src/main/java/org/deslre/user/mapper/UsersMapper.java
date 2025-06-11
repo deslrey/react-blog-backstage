@@ -1,6 +1,6 @@
 package org.deslre.user.mapper;
 
-import org.deslre.user.entity.po.Users;
+import org.deslre.user.entity.po.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author author
  * @since 2025-06-08
  */
-public interface UsersMapper extends BaseMapper<Users> {
+public interface UsersMapper extends BaseMapper<User> {
 
 }
