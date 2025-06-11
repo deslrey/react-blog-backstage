@@ -22,4 +22,6 @@ public interface UsersService extends IService<User> {
     Results<Void> block(Integer userId, Boolean exist);
 
     Results<Void> sendEmailCode(String email);
+
+    Results<UserVO> updatePassWord(String email, String oldPassWord, String newPassWord);
 }

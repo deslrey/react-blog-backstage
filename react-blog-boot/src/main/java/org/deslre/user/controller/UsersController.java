@@ -64,4 +64,10 @@ public class UsersController {
     public Results<Void> sendEmailCode(String email) {
         return usersService.sendEmailCode(email);
     }
+
+    @PostMapping("updatePassWord")
+    public Results<UserVO> updatePassWord(String email, String oldPassWord, String newPassWord) {
+        return usersService.updatePassWord(email, oldPassWord, newPassWord);
+    }
+
 }

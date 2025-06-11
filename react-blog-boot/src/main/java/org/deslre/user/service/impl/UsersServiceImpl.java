@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -126,7 +127,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, User> implements 
             return Results.fail("该邮箱已被锁定");
         }
         UserVO vo = UserConvert.INSTANCE.convert(user);
-        return Results.ok(vo);
+        return Results.ok(vo, "登录成功");
     }
 
     @Override
@@ -157,5 +158,31 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, User> implements 
         redisUtil.setEx(Constants.EMAIL_CODE + email, code, Constants.LENGTH_5, TimeUnit.MINUTES);
         log.info("发送验证码邮箱: {},验证码: {}", email, code);
         return Results.ok("验证码已发送,五分钟有效期");
+    }
+
+    @Override
+    public Results<UserVO> updatePassWord(String email, String oldPassWord, String newPassWord) {
+        if (StringUtils.isEmpty(email) || StringUtils.isEmpty(oldPassWord) || StringUtils.isEmpty(newPassWord)) {
+            return Results.fail(ResultCodeEnum.EMPTY_VALUE);
+        }
+        if (!RegexUtils.checkEmail(email)) {
+            return Results.fail("邮箱号格式错误");
+        }
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>().eq(User::getEmail, email);
+        User user = getOne(queryWrapper);
+        if (user == null) {
+            return Results.fail("修改失败,该邮箱不存在");
+        }
+        String oldEncrypt = SHA256Util.encrypt(oldPassWord);
+        String newEncrypt = SHA256Util.encrypt(newPassWord);
+        if (Objects.equals(oldEncrypt, newEncrypt)) {
+            return Results.fail("修改失败,新密码和旧密码不能相同");
+        }
+        if (!user.getPassWord().equals(oldEncrypt)) {
+            return Results.fail("修改失败,原密码错误");
+        }
+        user.setPassWord(newEncrypt);
+        updateById(user);
+        return Results.ok("密码修改成功");
     }
 }
