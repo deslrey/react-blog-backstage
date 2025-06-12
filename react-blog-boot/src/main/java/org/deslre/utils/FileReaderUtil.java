@@ -1,15 +1,10 @@
-package org.deslre.commons.utils;
+package org.deslre.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.deslre.commons.entity.ArticleDetail;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;

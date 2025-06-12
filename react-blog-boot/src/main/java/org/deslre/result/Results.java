@@ -1,4 +1,4 @@
-package org.deslre.commons.result;
+package org.deslre.result;
 
 import lombok.Data;
 
@@ -88,7 +88,7 @@ public class Results<T> {
 
 
     public static <T> Results<T> fail() {
-        return Results.fail(null, ResultCodeEnum.FAIL);
+        return fail(null, ResultCodeEnum.FAIL);
     }
 
     public static <T> Results<T> fail(T data, ResultCodeEnum resultCodeEnum) {

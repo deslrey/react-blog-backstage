@@ -1,4 +1,4 @@
-package org.deslre.commons.result;
+package org.deslre.result;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package org.deslre.commons.entity;
+package org.deslre.desk.entity.po;
 
 import lombok.Data;
 
