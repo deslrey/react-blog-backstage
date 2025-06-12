@@ -36,6 +36,10 @@ public class StaticUtil {
     public static final String RESOURCE_DRAFT = RESOURCE_URL + "draft" + File.separator;
     //    草稿封面存储路径
     public static final String RESOURCE_DRAFT_PATH = FILE_PATH + "draft";
+    //    头像保存路径
+    public static final String RESOURCE_AVATAR = FILE_PATH + "avatar" + File.separator;
+    //    头像url
+    public static final String RESOURCE_AVATAR_URL = RESOURCE_URL + "avatar/";
 
     //    md文件的url
     public static final String RESOURCE_URL_MD = RESOURCE_URL + "md/";
