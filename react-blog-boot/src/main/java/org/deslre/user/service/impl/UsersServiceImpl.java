@@ -3,17 +3,16 @@ package org.deslre.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.deslre.commons.result.ResultCodeEnum;
-import org.deslre.commons.result.Results;
-import org.deslre.commons.utils.NumberUtils;
-import org.deslre.commons.utils.StaticUtil;
-import org.deslre.commons.utils.StringUtils;
-import org.deslre.user.convert.UserConvert;
+import org.deslre.result.ResultCodeEnum;
+import org.deslre.result.Results;
 import org.deslre.user.entity.po.InvitationCodes;
+import org.deslre.utils.NumberUtils;
+import org.deslre.utils.StaticUtil;
+import org.deslre.utils.StringUtils;
+import org.deslre.user.convert.UserConvert;
 import org.deslre.user.entity.po.User;
 import org.deslre.user.entity.vo.UserVO;
 import org.deslre.user.mapper.UsersMapper;
-import org.deslre.user.page.PageResults;
 import org.deslre.user.service.InvitationCodesService;
 import org.deslre.user.service.UsersService;
 import org.deslre.utils.*;
@@ -23,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -71,31 +69,31 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, User> implements 
             return Results.fail("邀请码为空");
         }
 
-//        LambdaQueryWrapper<InvitationCodes> queryWrapper = new LambdaQueryWrapper<InvitationCodes>()
-//                .eq(InvitationCodes::getCode, inviteCode)
-//                .eq(InvitationCodes::getExist, StaticUtil.TRUE);
-//
-//        InvitationCodes invitationCode = invitationCodesService.getOne(queryWrapper);
-//
-//        if (invitationCode == null) {
-//            return Results.fail("无效邀请码");
-//        }
-//
-//        if (invitationCode.getIsUsed()) {
-//            return Results.fail("邀请码已被使用");
-//        }
-//
-//        if (invitationCode.getExpiresTime() != null &&
-//                invitationCode.getExpiresTime().isBefore(LocalDateTime.now())) {
-//            return Results.fail("邀请码已过期");
-//        }
+        LambdaQueryWrapper<InvitationCodes> inviteCodeQueryWrapper = new LambdaQueryWrapper<InvitationCodes>()
+                .eq(InvitationCodes::getCode, inviteCode)
+                .eq(InvitationCodes::getExist, StaticUtil.TRUE);
+
+        InvitationCodes invitationCode = invitationCodesService.getOne(inviteCodeQueryWrapper);
+
+        if (invitationCode == null) {
+            return Results.fail("无效邀请码");
+        }
+
+        if (invitationCode.getIsUsed()) {
+            return Results.fail("邀请码已被使用");
+        }
+
+        if (invitationCode.getExpiresTime() != null &&
+                invitationCode.getExpiresTime().isBefore(LocalDateTime.now())) {
+            return Results.fail("邀请码已过期");
+        }
 
         String code = redisUtil.get(Constants.EMAIL_CODE + email);
         if (StringUtils.isEmpty(code)) {
             return Results.fail("邮箱验证码过期");
         }
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>().eq(User::getEmail, email);
-        User user = getOne(queryWrapper);
+        LambdaQueryWrapper<User> UserQueryWrapper = new LambdaQueryWrapper<User>().eq(User::getEmail, email);
+        User user = getOne(UserQueryWrapper);
         if (user != null) {
             return Results.fail("该邮箱已注册");
         }

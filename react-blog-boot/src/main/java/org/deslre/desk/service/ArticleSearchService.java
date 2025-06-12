@@ -1,6 +1,6 @@
 package org.deslre.desk.service;
 
-import org.deslre.commons.result.Results;
+import org.deslre.result.Results;
 import org.deslre.desk.entity.dto.ArticleSearchDTO;
 
 import java.util.List;

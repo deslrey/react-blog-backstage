@@ -1,6 +1,7 @@
 package org.deslre.user.controller;
 
-import org.deslre.commons.result.Results;
+import org.deslre.annotation.AuthCheck;
+import org.deslre.result.Results;
 import org.deslre.user.entity.vo.VisitorVO;
 import org.deslre.user.service.VisitorService;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +33,14 @@ public class VisitorController {
     }
 
     @GetMapping("visitorList")
-    public Results<List<VisitorVO>> visitorList() {
+    @AuthCheck(admin = true, checkLogin = true, log = "获取访客列表", category = "visitor")
+    public Results<List<VisitorVO>> visitorList(HttpServletRequest request) {
         return visitorService.visitorList();
     }
 
     @PostMapping("blockVisitor")
-    public Results<Boolean> blockVisitor(Integer visitorId, Boolean isBlock) {
+    @AuthCheck(admin = true, checkLogin = true, log = "拉黑访客", category = "visitor")
+    public Results<Boolean> blockVisitor(HttpServletRequest request, Integer visitorId, Boolean isBlock) {
         return visitorService.blockVisitor(visitorId, isBlock);
     }
 }

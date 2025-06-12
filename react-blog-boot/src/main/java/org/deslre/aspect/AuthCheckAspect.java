@@ -8,10 +8,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.deslre.annotation.AuthCheck;
-import org.deslre.commons.result.ResultCodeEnum;
-import org.deslre.commons.utils.NumberUtils;
-import org.deslre.commons.utils.StaticUtil;
-import org.deslre.commons.utils.StringUtils;
+import org.deslre.result.ResultCodeEnum;
+import org.deslre.utils.StaticUtil;
+import org.deslre.utils.StringUtils;
 import org.deslre.exception.DeslreException;
 import org.deslre.user.entity.po.AdminOperationLog;
 import org.deslre.user.entity.po.Region;
@@ -86,7 +85,7 @@ public class AuthCheckAspect {
             String adminStr = request.getHeader("x-deslre-admin");
             userName = request.getHeader("x-deslre-userName");
             admin = "true".equalsIgnoreCase(adminStr) || "1".equals(adminStr);
-            System.out.println("前端传来的用户信息: email=" + email + ", admin=" + admin + ", userName=" + userName);
+//            System.out.println("前端传来的用户信息: email=" + email + ", admin=" + admin + ", userName=" + userName);
         } else {
             throw new DeslreException(ResultCodeEnum.CODE_500);
         }
@@ -127,6 +126,7 @@ public class AuthCheckAspect {
             operationLog.setCity(region.getCity() != null ? region.getCity() : "未知");
             operationLog.setOperationTime(LocalDateTime.now());
             operationLog.setExist(StaticUtil.TRUE);
+//            System.out.println("operationLog ======>  " + operationLog);
             adminOperationLogService.save(operationLog);
         }
         return joinPoint.proceed();

@@ -1,7 +1,7 @@
 package org.deslre.user.controller;
 
 import org.deslre.annotation.AuthCheck;
-import org.deslre.commons.result.Results;
+import org.deslre.result.Results;
 import org.deslre.user.entity.dto.UserInfoDTO;
 import org.deslre.user.entity.vo.InviteCodeVO;
 import org.deslre.user.service.InvitationCodesService;

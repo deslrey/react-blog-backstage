@@ -1,8 +1,8 @@
 package org.deslre.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.deslre.commons.result.ResultCodeEnum;
-import org.deslre.commons.result.Results;
+import org.deslre.result.ResultCodeEnum;
+import org.deslre.result.Results;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;

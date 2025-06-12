@@ -1,7 +1,7 @@
 package org.deslre.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.deslre.commons.result.Results;
+import org.deslre.result.Results;
 import org.deslre.user.entity.po.Visitor;
 import org.deslre.user.entity.vo.VisitorVO;
 

@@ -1,8 +1,7 @@
 package org.deslre.desk.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.deslre.commons.entity.ArticleDetail;
-import org.deslre.commons.result.Results;
+import org.deslre.result.Results;
 import org.deslre.desk.entity.dto.ArticleViewDTO;
 import org.deslre.desk.entity.dto.MetadataDTO;
 import org.deslre.desk.entity.po.Article;
@@ -12,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ClassName: ArticleService

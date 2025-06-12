@@ -1,13 +1,14 @@
 package org.deslre.user.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.deslre.commons.result.ResultCodeEnum;
-import org.deslre.commons.result.Results;
-import org.deslre.commons.utils.DateUtil;
-import org.deslre.commons.utils.StaticUtil;
+import org.deslre.annotation.AuthCheck;
+import org.deslre.result.ResultCodeEnum;
+import org.deslre.result.Results;
+import org.deslre.utils.StaticUtil;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,7 +28,8 @@ import java.util.UUID;
 public class UploadController {
 
     @PostMapping("/image")
-    public Results<Map<String, Object>> upload(@RequestParam("file") MultipartFile file) throws IOException {
+    @AuthCheck(admin = true, checkLogin = true, log = "上传编辑文章图片", category = "upload")
+    public Results<Map<String, Object>> upload(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws IOException {
 
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
         try {

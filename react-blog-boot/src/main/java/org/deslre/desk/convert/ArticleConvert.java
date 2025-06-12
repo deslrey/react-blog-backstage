@@ -1,6 +1,6 @@
 package org.deslre.desk.convert;
 
-import org.deslre.commons.entity.ArticleDetail;
+import org.deslre.desk.entity.po.ArticleDetail;
 import org.deslre.desk.entity.po.Article;
 import org.deslre.desk.entity.vo.ArticleVO;
 import org.mapstruct.Mapper;

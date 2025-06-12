@@ -1,10 +1,9 @@
 package org.deslre.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.deslre.commons.result.ResultCodeEnum;
-import org.deslre.commons.result.Results;
-import org.deslre.commons.utils.NumberUtils;
-import org.deslre.desk.entity.dto.ArticleViewDTO;
+import org.deslre.result.ResultCodeEnum;
+import org.deslre.result.Results;
+import org.deslre.utils.NumberUtils;
 import org.deslre.user.convert.VisitLogConvert;
 import org.deslre.user.entity.po.VisitCount;
 import org.deslre.user.entity.po.VisitLog;

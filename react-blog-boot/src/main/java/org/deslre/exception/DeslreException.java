@@ -2,7 +2,7 @@ package org.deslre.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.deslre.commons.result.ResultCodeEnum;
+import org.deslre.result.ResultCodeEnum;
 
 import java.io.Serial;
 

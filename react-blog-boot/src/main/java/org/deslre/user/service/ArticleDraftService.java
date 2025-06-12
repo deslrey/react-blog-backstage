@@ -1,7 +1,7 @@
 package org.deslre.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.deslre.commons.result.Results;
+import org.deslre.result.Results;
 import org.deslre.user.entity.po.ArticleDraft;
 import org.deslre.user.entity.vo.ArticleDraftVO;
 import org.springframework.web.multipart.MultipartFile;

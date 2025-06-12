@@ -1,7 +1,7 @@
 package org.deslre.desk.service.impl;
 
-import org.deslre.commons.result.Results;
-import org.deslre.commons.utils.StringUtils;
+import org.deslre.result.Results;
+import org.deslre.utils.StringUtils;
 import org.deslre.desk.entity.dto.ArticleSearchDTO;
 import org.deslre.desk.entity.es.ArticleES;
 import org.deslre.desk.service.ArticleSearchService;
@@ -13,11 +13,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * ClassName: ArticleSearchServiceImpl
@@ -26,9 +23,9 @@ import java.util.stream.Collectors;
  * Date: 2025-06-08 15:16
  * Version: 1.0
  */
-@Service
+//@Service
 public class ArticleSearchServiceImpl implements ArticleSearchService {
-    @Resource
+//    @Resource
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     /**

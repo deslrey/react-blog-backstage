@@ -2,11 +2,11 @@ package org.deslre.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.deslre.commons.result.ResultCodeEnum;
-import org.deslre.commons.result.Results;
-import org.deslre.commons.utils.NumberUtils;
-import org.deslre.commons.utils.StaticUtil;
-import org.deslre.commons.utils.StringUtils;
+import org.deslre.result.ResultCodeEnum;
+import org.deslre.result.Results;
+import org.deslre.utils.NumberUtils;
+import org.deslre.utils.StaticUtil;
+import org.deslre.utils.StringUtils;
 import org.deslre.user.convert.VisitorConvert;
 import org.deslre.user.entity.po.*;
 import org.deslre.user.entity.vo.VisitorVO;

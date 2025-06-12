@@ -1,7 +1,8 @@
 package org.deslre.user.controller;
 
 
-import org.deslre.commons.result.Results;
+import org.deslre.annotation.AuthCheck;
+import org.deslre.result.Results;
 import org.deslre.exception.DeslreException;
 import org.deslre.user.entity.po.User;
 import org.deslre.user.entity.vo.UserVO;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -56,7 +58,8 @@ public class UsersController {
     }
 
     @PostMapping("block")
-    public Results<Void> block(Integer userId, String email, Boolean exist) {
+    @AuthCheck(admin = true, checkLogin = true, log = "禁用/开启用户", category = "user")
+    public Results<Void> block(HttpServletRequest request, Integer userId, String email, Boolean exist) {
         return usersService.block(userId, email, exist);
     }
 
@@ -66,27 +69,32 @@ public class UsersController {
     }
 
     @PostMapping("updatePassWord")
-    public Results<UserVO> updatePassWord(String email, String oldPassWord, String newPassWord) {
+    @AuthCheck(admin = false, checkLogin = true, log = "修改密码", category = "user")
+    public Results<UserVO> updatePassWord(HttpServletRequest request, String email, String oldPassWord, String newPassWord) {
         return usersService.updatePassWord(email, oldPassWord, newPassWord);
     }
 
     @PostMapping("updateUserName")
-    public Results<UserVO> updateUserName(String email, String userName) {
+    @AuthCheck(admin = false, checkLogin = true, log = "修改用户名", category = "user")
+    public Results<UserVO> updateUserName(HttpServletRequest request, String email, String userName) {
         return usersService.updateUserName(email, userName);
     }
 
     @PostMapping("updateAvatar")
-    public Results<UserVO> updateAvatar(String email, @RequestParam("file") MultipartFile avatarFile) {
+    @AuthCheck(admin = false, checkLogin = true, log = "修改头像", category = "user")
+    public Results<UserVO> updateAvatar(HttpServletRequest request, String email, @RequestParam("file") MultipartFile avatarFile) {
         return usersService.updateAvatar(email, avatarFile);
     }
 
     @PostMapping("checkUserInfo")
+    @AuthCheck(admin = false, checkLogin = true, log = "校验用户信息", category = "user")
     public Results<UserVO> checkUserInfo(String email, Boolean admin) {
         return usersService.checkUserInfo(email, admin);
     }
 
     @GetMapping("userList")
-    public Results<List<User>> userList() {
+    @AuthCheck(admin = true, checkLogin = true, log = "获取用户列表", category = "user")
+    public Results<List<User>> userList(HttpServletRequest request) {
         return usersService.userList();
     }
 
