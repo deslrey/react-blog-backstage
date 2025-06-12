@@ -241,7 +241,8 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, User> implements 
             System.out.println("avatarUrl = " + avatarUrl);
             user.setImage(avatarUrl);
             updateById(user);
-            return Results.ok("头像上传成功");
+            UserVO vo = UserConvert.INSTANCE.convert(user);
+            return Results.ok(vo, "头像上传成功");
         } catch (Exception e) {
             log.error("用户: {},修改头像失败: {}", email, e.getMessage());
             return Results.fail("头像上传失败");

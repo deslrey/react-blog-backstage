@@ -6,11 +6,8 @@ import org.deslre.exception.DeslreException;
 import org.deslre.user.entity.vo.UserVO;
 import org.deslre.user.service.UsersService;
 import org.deslre.utils.Constants;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
