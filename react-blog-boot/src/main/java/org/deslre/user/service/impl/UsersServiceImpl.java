@@ -133,6 +133,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, User> implements 
             return Results.fail("该邮箱已被锁定");
         }
         UserVO vo = UserConvert.INSTANCE.convert(user);
+        redisUtil.setEx(Constants.LOGIN_EMAIL + email, "login", Constants.LENGTH_30, TimeUnit.MINUTES);
         return Results.ok(vo, "登录成功");
     }
 
