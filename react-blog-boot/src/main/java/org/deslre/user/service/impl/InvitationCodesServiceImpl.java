@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
+import org.deslre.commons.utils.NumberUtils;
 import org.deslre.commons.utils.StaticUtil;
 import org.deslre.commons.utils.StringUtils;
 import org.deslre.user.convert.InviteCodeConvert;
@@ -73,5 +74,26 @@ public class InvitationCodesServiceImpl extends ServiceImpl<InvitationCodesMappe
         List<InvitationCodes> invitationCodesList = list();
         List<InviteCodeVO> inviteCodeVOList = InviteCodeConvert.INSTANCE.convert(invitationCodesList);
         return Results.ok(inviteCodeVOList);
+    }
+
+    @Override
+    public Results<Void> updateInviteCode(InviteCodeVO vo) {
+        if (vo == null) {
+            return Results.fail(ResultCodeEnum.CODE_501);
+        }
+        if (NumberUtils.isLessThanZero(vo.getId()) || StringUtils.isEmpty(vo.getCode()) || StringUtils.isEmpty(vo.getCreatedBy())) {
+            return Results.fail(ResultCodeEnum.CODE_501);
+        }
+        LambdaQueryWrapper<InvitationCodes> queryWrapper = new LambdaQueryWrapper<InvitationCodes>().eq(InvitationCodes::getId, vo.getId()).eq(InvitationCodes::getCreatedBy, vo.getCreatedBy());
+        InvitationCodes invitationCodes = getOne(queryWrapper);
+        if (invitationCodes == null) {
+            return Results.fail("修改失败,数据不存在");
+        }
+        invitationCodes.setCode(vo.getCode());
+        invitationCodes.setExpiresTime(vo.getExpiresTime());
+        invitationCodes.setRemark(vo.getRemark());
+        invitationCodes.setIsAdmin(vo.getIsAdmin());
+        updateById(invitationCodes);
+        return Results.ok("修改成功");
     }
 }

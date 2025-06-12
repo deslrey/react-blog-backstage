@@ -20,4 +20,6 @@ public interface InvitationCodesService  extends IService<InvitationCodes> {
     Results<Void> addInviteCode(UserInfoDTO userInfoDTO, String inviteCode,String remark,Boolean isAdmin);
 
     Results<List<InviteCodeVO>> inviteCodeList();
+
+    Results<Void> updateInviteCode(InviteCodeVO vo);
 }
