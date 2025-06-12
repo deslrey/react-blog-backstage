@@ -1,9 +1,8 @@
 package org.deslre.desk.controller;
 
-import lombok.Getter;
-import org.deslre.commons.entity.ArticleDetail;
 import org.deslre.commons.result.Results;
 import org.deslre.desk.entity.dto.ArticleViewDTO;
+import org.deslre.desk.entity.dto.MetadataDTO;
 import org.deslre.desk.entity.vo.ArticleVO;
 import org.deslre.desk.service.ArticleService;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ClassName: ArticleController
@@ -87,5 +85,10 @@ public class ArticleController {
     @GetMapping("findTopByPageViews")
     public Results<List<ArticleViewDTO>> findTopByPageViews() {
         return articleService.findTopByPageViews();
+    }
+
+    @PostMapping("metadata")
+    public Results<MetadataDTO> metadata(Integer articleId) {
+        return articleService.metadata(articleId);
     }
 }
