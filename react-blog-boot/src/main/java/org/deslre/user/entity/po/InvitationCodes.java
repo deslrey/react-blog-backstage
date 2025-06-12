@@ -59,6 +59,11 @@ public class InvitationCodes implements Serializable {
     private Integer createdBy;
 
     /**
+     * 是否为管理员邀请码
+     */
+    private Boolean isAdmin;
+
+    /**
      * 邀请码生成时间
      */
     private LocalDateTime createdTime;
