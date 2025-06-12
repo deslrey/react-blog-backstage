@@ -37,11 +37,11 @@ public class InvitationCodesServiceImpl extends ServiceImpl<InvitationCodesMappe
     private UsersService usersService;
 
     @Override
-    public Results<Void> addInviteCode(UserInfoDTO userInfoDTO, String inviteCode, String remark, Boolean isAdmin) {
+    public Results<Void> addInviteCode(UserInfoDTO userInfoDTO, InviteCodeVO vo) {
         if (userInfoDTO == null) {
             return Results.fail(ResultCodeEnum.CODE_500);
         }
-        if (StringUtils.isEmpty(inviteCode)) {
+        if (vo == null || StringUtils.isEmpty(vo.getCode())) {
             return Results.fail("邀请码不能为空");
         }
         if (StringUtils.isEmpty(userInfoDTO.getUserName()) || StringUtils.isEmpty(userInfoDTO.getEmail()) || userInfoDTO.getAdmin() == null) {
@@ -52,19 +52,20 @@ public class InvitationCodesServiceImpl extends ServiceImpl<InvitationCodesMappe
         if (user == null) {
             return Results.fail(ResultCodeEnum.LOGIN_MOBILE_ERROR);
         }
-        LambdaQueryWrapper<InvitationCodes> invitationCodesQueryWrapper = new LambdaQueryWrapper<InvitationCodes>().eq(InvitationCodes::getCode, inviteCode);
+        LambdaQueryWrapper<InvitationCodes> invitationCodesQueryWrapper = new LambdaQueryWrapper<InvitationCodes>().eq(InvitationCodes::getCode, vo.getCode());
         InvitationCodes invitationCodes = getOne(invitationCodesQueryWrapper);
         if (invitationCodes != null) {
             return Results.fail("该邀请码已存在");
         }
         invitationCodes = new InvitationCodes();
-        invitationCodes.setCode(inviteCode);
+        invitationCodes.setCode(vo.getCode());
         invitationCodes.setIsUsed(StaticUtil.TRUE);
         invitationCodes.setCreatedBy(userInfoDTO.getEmail());
-        invitationCodes.setIsAdmin(isAdmin);
+        invitationCodes.setIsAdmin(vo.getIsAdmin());
         invitationCodes.setCreatedTime(LocalDateTime.now());
+        invitationCodes.setExpiresTime(vo.getExpiresTime());
         invitationCodes.setExist(StaticUtil.TRUE);
-        invitationCodes.setRemark(remark);
+        invitationCodes.setRemark(vo.getRemark());
         save(invitationCodes);
         return Results.ok("邀请码添加成功");
     }

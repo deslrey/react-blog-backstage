@@ -27,9 +27,9 @@ public class InvitationCodesController extends BaseController {
 
     @PostMapping("addInviteCode")
     @AuthCheck(admin = true, checkLogin = true, log = "添加验证码", category = "inviteCode")
-    public Results<Void> addInviteCode(HttpServletRequest request, String inviteCode, String remark, Boolean isAdmin) {
+    public Results<Void> addInviteCode(HttpServletRequest request, @RequestBody InviteCodeVO vo) {
         UserInfoDTO userInfoDTO = parseUserInfo(request);
-        return invitationCodesService.addInviteCode(userInfoDTO, inviteCode, remark, isAdmin);
+        return invitationCodesService.addInviteCode(userInfoDTO, vo);
     }
 
     @GetMapping("inviteCodeList")

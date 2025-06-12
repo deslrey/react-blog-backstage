@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface InvitationCodesService  extends IService<InvitationCodes> {
 
-    Results<Void> addInviteCode(UserInfoDTO userInfoDTO, String inviteCode,String remark,Boolean isAdmin);
+    Results<Void> addInviteCode(UserInfoDTO userInfoDTO,InviteCodeVO vo);
 
     Results<List<InviteCodeVO>> inviteCodeList();
 
