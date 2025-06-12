@@ -17,6 +17,7 @@ import org.deslre.user.page.PageResults;
 import org.deslre.user.service.InvitationCodesService;
 import org.deslre.user.service.UsersService;
 import org.deslre.utils.*;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, User> implements UsersService {
 
+    @Lazy
     @Resource
     private InvitationCodesService invitationCodesService;
 

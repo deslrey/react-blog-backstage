@@ -12,6 +12,7 @@ import org.deslre.user.entity.po.User;
 import org.deslre.user.mapper.InvitationCodesMapper;
 import org.deslre.user.service.InvitationCodesService;
 import org.deslre.user.service.UsersService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 @Service
 public class InvitationCodesServiceImpl extends ServiceImpl<InvitationCodesMapper, InvitationCodes> implements InvitationCodesService {
 
+    @Lazy
     @Resource
     private UsersService usersService;
 
