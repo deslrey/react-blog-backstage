@@ -22,4 +22,6 @@ public interface InvitationCodesService  extends IService<InvitationCodes> {
     Results<List<InviteCodeVO>> inviteCodeList();
 
     Results<Void> updateInviteCode(InviteCodeVO vo);
+
+    Results<Void> updateExist(Integer id, String code, Boolean exist);
 }

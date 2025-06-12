@@ -43,4 +43,10 @@ public class InvitationCodesController extends BaseController {
     public Results<Void> updateInviteCode(HttpServletRequest request, @RequestBody InviteCodeVO vo) {
         return invitationCodesService.updateInviteCode(vo);
     }
+
+    @PostMapping("updateExist")
+    @AuthCheck(admin = true, checkLogin = true, log = "启用/禁用邀请码", category = "inviteCode")
+    public Results<Void> updateExist(HttpServletRequest request, Integer id, String code, Boolean exist) {
+        return invitationCodesService.updateExist(id, code, exist);
+    }
 }

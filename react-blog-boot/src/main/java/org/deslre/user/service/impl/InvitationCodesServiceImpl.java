@@ -97,4 +97,19 @@ public class InvitationCodesServiceImpl extends ServiceImpl<InvitationCodesMappe
         updateById(invitationCodes);
         return Results.ok("修改成功");
     }
+
+    @Override
+    public Results<Void> updateExist(Integer id, String code, Boolean exist) {
+        if (NumberUtils.isLessThanZero(id) || StringUtils.isEmpty(code) || exist == null) {
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+        LambdaQueryWrapper<InvitationCodes> queryWrapper = new LambdaQueryWrapper<InvitationCodes>().eq(InvitationCodes::getId, id).eq(InvitationCodes::getCode, code).eq(InvitationCodes::getExist, exist);
+        InvitationCodes invitationCodes = getOne(queryWrapper);
+        if (invitationCodes == null) {
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+        invitationCodes.setExist(!exist);
+        updateById(invitationCodes);
+        return Results.ok(exist ? "禁用成功" : "启用成功");
+    }
 }
