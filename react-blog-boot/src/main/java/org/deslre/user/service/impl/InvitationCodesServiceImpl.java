@@ -6,9 +6,11 @@ import org.deslre.commons.result.ResultCodeEnum;
 import org.deslre.commons.result.Results;
 import org.deslre.commons.utils.StaticUtil;
 import org.deslre.commons.utils.StringUtils;
+import org.deslre.user.convert.InviteCodeConvert;
 import org.deslre.user.entity.dto.UserInfoDTO;
 import org.deslre.user.entity.po.InvitationCodes;
 import org.deslre.user.entity.po.User;
+import org.deslre.user.entity.vo.InviteCodeVO;
 import org.deslre.user.mapper.InvitationCodesMapper;
 import org.deslre.user.service.InvitationCodesService;
 import org.deslre.user.service.UsersService;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * ClassName: InvitationCodesServiceImpl
@@ -56,12 +59,19 @@ public class InvitationCodesServiceImpl extends ServiceImpl<InvitationCodesMappe
         invitationCodes = new InvitationCodes();
         invitationCodes.setCode(inviteCode);
         invitationCodes.setIsUsed(StaticUtil.TRUE);
-        invitationCodes.setCreatedBy(user.getId());
+        invitationCodes.setCreatedBy(userInfoDTO.getEmail());
         invitationCodes.setIsAdmin(isAdmin);
         invitationCodes.setCreatedTime(LocalDateTime.now());
         invitationCodes.setExist(StaticUtil.TRUE);
         invitationCodes.setRemark(remark);
         save(invitationCodes);
         return Results.ok("邀请码添加成功");
+    }
+
+    @Override
+    public Results<List<InviteCodeVO>> inviteCodeList() {
+        List<InvitationCodes> invitationCodesList = list();
+        List<InviteCodeVO> inviteCodeVOList = InviteCodeConvert.INSTANCE.convert(invitationCodesList);
+        return Results.ok(inviteCodeVOList);
     }
 }

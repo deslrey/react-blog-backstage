@@ -44,9 +44,9 @@ public class InvitationCodes implements Serializable {
     private Boolean isUsed;
 
     /**
-     * 被谁使用（用户ID）
+     * 被谁使用（用户邮箱）
      */
-    private Integer usedBy;
+    private String usedBy;
 
     /**
      * 使用时间
@@ -54,9 +54,9 @@ public class InvitationCodes implements Serializable {
     private LocalDateTime usedTime;
 
     /**
-     * 邀请码生成者ID（可选）
+     * 邀请码生成者邮箱（可选）
      */
-    private Integer createdBy;
+    private String createdBy;
 
     /**
      * 是否为管理员邀请码

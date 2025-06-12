@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.deslre.commons.result.Results;
 import org.deslre.user.entity.dto.UserInfoDTO;
 import org.deslre.user.entity.po.InvitationCodes;
+import org.deslre.user.entity.vo.InviteCodeVO;
+
+import java.util.List;
 
 /**
  * ClassName: InvitationCodesService
@@ -15,4 +18,6 @@ import org.deslre.user.entity.po.InvitationCodes;
 public interface InvitationCodesService  extends IService<InvitationCodes> {
 
     Results<Void> addInviteCode(UserInfoDTO userInfoDTO, String inviteCode,String remark,Boolean isAdmin);
+
+    Results<List<InviteCodeVO>> inviteCodeList();
 }
