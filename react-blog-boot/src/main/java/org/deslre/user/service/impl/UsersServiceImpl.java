@@ -13,6 +13,7 @@ import org.deslre.user.entity.po.InvitationCodes;
 import org.deslre.user.entity.po.User;
 import org.deslre.user.entity.vo.UserVO;
 import org.deslre.user.mapper.UsersMapper;
+import org.deslre.user.page.PageResults;
 import org.deslre.user.service.InvitationCodesService;
 import org.deslre.user.service.UsersService;
 import org.deslre.utils.*;
@@ -23,6 +24,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -135,11 +137,21 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, User> implements 
     }
 
     @Override
-    public Results<Void> block(Integer userId, Boolean exist) {
-        if (NumberUtils.isLessThanZero(userId) || exist == null) {
+    public Results<Void> block(Integer userId, String email, Boolean exist) {
+        if (NumberUtils.isLessThanZero(userId) || StringUtils.isEmpty(email) || exist == null) {
             return Results.fail(ResultCodeEnum.EMPTY_VALUE);
         }
-        return null;
+        if (!RegexUtils.checkEmail(email)) {
+            return Results.fail(ResultCodeEnum.DATA_ERROR);
+        }
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>().eq(User::getId, userId).eq(User::getEmail, email).eq(User::getExist, exist);
+        User user = getOne(queryWrapper);
+        if (user == null) {
+            return Results.fail(exist ? "禁用失败,该用户不存在" : "启用失败,该用户不存在");
+        }
+        user.setExist(!exist);
+        updateById(user);
+        return Results.ok(exist ? "禁用成功" : "启用成功");
     }
 
     @Override
@@ -247,5 +259,32 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, User> implements 
             log.error("用户: {},修改头像失败: {}", email, e.getMessage());
             return Results.fail("头像上传失败");
         }
+    }
+
+    @Override
+    public Results<UserVO> checkUserInfo(String email, Boolean admin) {
+        if (StringUtils.isEmpty(email) || admin == null) {
+            return Results.fail(ResultCodeEnum.CODE_500);
+        }
+        if (!RegexUtils.checkEmail(email)) {
+            return Results.fail("邮箱号格式错误");
+        }
+
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>().eq(User::getEmail, email).eq(User::getAdmin, admin);
+        User user = getOne(queryWrapper);
+        if (user == null) {
+            return Results.fail("身份验证失败");
+        }
+        if (!user.getExist()) {
+            return Results.fail("请求失败,该用户已被拉黑");
+        }
+        UserVO vo = UserConvert.INSTANCE.convert(user);
+        return Results.ok(vo);
+    }
+
+    @Override
+    public Results<List<User>> userList() {
+        List<User> list = list();
+        return Results.ok(list);
     }
 }

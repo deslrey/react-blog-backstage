@@ -3,7 +3,9 @@ package org.deslre.user.controller;
 
 import org.deslre.commons.result.Results;
 import org.deslre.exception.DeslreException;
+import org.deslre.user.entity.po.User;
 import org.deslre.user.entity.vo.UserVO;
+import org.deslre.user.page.PageResults;
 import org.deslre.user.service.UsersService;
 import org.deslre.utils.Constants;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * <p>
@@ -55,8 +58,8 @@ public class UsersController {
     }
 
     @PostMapping("block")
-    public Results<Void> block(Integer userId, Boolean exist) {
-        return usersService.block(userId, exist);
+    public Results<Void> block(Integer userId, String email, Boolean exist) {
+        return usersService.block(userId, email, exist);
     }
 
     @PostMapping("sendEmailCode")
@@ -78,4 +81,15 @@ public class UsersController {
     public Results<UserVO> updateAvatar(String email, @RequestParam("file") MultipartFile avatarFile) {
         return usersService.updateAvatar(email, avatarFile);
     }
+
+    @PostMapping("checkUserInfo")
+    public Results<UserVO> checkUserInfo(String email, Boolean admin) {
+        return usersService.checkUserInfo(email, admin);
+    }
+
+    @GetMapping("userList")
+    public Results<List<User>> userList() {
+        return usersService.userList();
+    }
+
 }

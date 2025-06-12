@@ -1,14 +1,16 @@
 package org.deslre.user.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.deslre.commons.result.Results;
 import org.deslre.user.entity.po.User;
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.deslre.user.entity.vo.UserVO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author author
@@ -20,7 +22,7 @@ public interface UsersService extends IService<User> {
 
     Results<UserVO> login(String email, String passWord);
 
-    Results<Void> block(Integer userId, Boolean exist);
+    Results<Void> block(Integer userId, String email, Boolean exist);
 
     Results<Void> sendEmailCode(String email);
 
@@ -29,4 +31,8 @@ public interface UsersService extends IService<User> {
     Results<UserVO> updateUserName(String email, String userName);
 
     Results<UserVO> updateAvatar(String email, MultipartFile avatarFile);
+
+    Results<UserVO> checkUserInfo(String email, Boolean admin);
+
+    Results<List<User>> userList();
 }
