@@ -9,7 +9,9 @@ import org.deslre.utils.Constants;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -75,4 +77,8 @@ public class UsersController {
         return usersService.updateUserName(email, userName);
     }
 
+    @PostMapping("updateAvatar")
+    public Results<UserVO> updateAvatar(String email, @RequestParam("file") MultipartFile avatarFile) {
+        return usersService.updateAvatar(email, avatarFile);
+    }
 }

@@ -17,10 +17,14 @@ import org.deslre.user.service.InvitationCodesService;
 import org.deslre.user.service.UsersService;
 import org.deslre.utils.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -206,5 +210,41 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, User> implements 
         updateById(user);
         UserVO vo = UserConvert.INSTANCE.convert(user);
         return Results.ok(vo, "昵称修改成功");
+    }
+
+    @Override
+    public Results<UserVO> updateAvatar(String email, MultipartFile avatarFile) {
+        if (StringUtils.isEmpty(email) || avatarFile == null) {
+            return Results.fail(ResultCodeEnum.EMPTY_VALUE);
+        }
+        if (!RegexUtils.checkEmail(email)) {
+            return Results.fail("邮箱号格式错误");
+        }
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>().eq(User::getEmail, email).eq(User::getExist, StaticUtil.TRUE);
+        User user = getOne(queryWrapper);
+        if (user == null) {
+            return Results.fail("上传失败,该用户不存在");
+        }
+        try {
+            String avatarName = UUID.randomUUID() + "_" + avatarFile.getOriginalFilename();
+            File dir = new File(StaticUtil.RESOURCE_AVATAR);
+            if (!dir.exists()) {
+                boolean created = dir.mkdirs();
+                if (!created) {
+                    log.error("目录创建失败: {}", StaticUtil.RESOURCE_AVATAR);
+                    return Results.fail(ResultCodeEnum.CODE_500);
+                }
+            }
+            String fullAvatarPath = StaticUtil.RESOURCE_AVATAR + File.separator + avatarName;
+            avatarFile.transferTo(new File(fullAvatarPath));
+            String avatarUrl = StaticUtil.RESOURCE_AVATAR_URL + avatarName;
+            System.out.println("avatarUrl = " + avatarUrl);
+            user.setImage(avatarUrl);
+            updateById(user);
+            return Results.ok("头像上传成功");
+        } catch (Exception e) {
+            log.error("用户: {},修改头像失败: {}", email, e.getMessage());
+            return Results.fail("头像上传失败");
+        }
     }
 }
