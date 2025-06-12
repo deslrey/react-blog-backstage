@@ -15,16 +15,17 @@ public class Constants {
     public static final Integer LENGTH_15 = 15;
     public static final Integer LENGTH_10 = 10;
     public static final Long MB = 1024 * 1024L;
+    public static final String SESSION_KEY = "session_key";
     public static final Integer REDIS_KEY_EXPIRES_DAY = 60 * 60 * 24;
     public static final Integer LENGTH_30 = 30;
     public static final Integer REDIS_KEY_EXPIRES_THREE_HOURS = 60 * 60 * 3;
     public static final Integer LENGTH_150 = 150;
     public static final String ZERO_STR = "0";
     public static final Integer LENGTH_50 = 50;
-    public static final String REDIS_KEY_DOWNLOAD = "deslre:download:";
     public static final Integer REDIS_KEY_EXPIRES_ONE_MIN = 60;
     public static final Integer REDIS_KEY_EXPIRES_FIVE_MIN = REDIS_KEY_EXPIRES_ONE_MIN * 5;
     public static final String EMAIL_CODE = "email:verification:code:";
 
+    public static final String LOGIN_EMAIL = "login:email:";
 
 }
